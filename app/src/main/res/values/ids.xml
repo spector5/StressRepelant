@@ -2,4 +2,5 @@
 <resources>
     <item name="textTable" type="id">textTable</item>
     <item name="button" type="id">button</item>
+    <item name="sendText" type="id">sendText</item>
 </resources>

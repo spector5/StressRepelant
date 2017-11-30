@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.text.Layout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 public class TextActivity extends AppCompatActivity {
 
     private TableLayout tl;
     private Button button;
+    private Button send;
+    private EditText textview = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +27,8 @@ public class TextActivity extends AppCompatActivity {
 
         tl=(TableLayout)findViewById(R.id.textTable);
         button = (Button)findViewById(R.id.button);
+        send = (Button)findViewById(R.id.sendText);
+        send.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -38,16 +39,19 @@ public class TextActivity extends AppCompatActivity {
     {
         // TODO need to change what the button does (needs to send)
         // not sure how to switch it back, might be able to use bool flag
-        button.setText("Send");
+        //button.setText("Send");
+        Log.d("new text", "clicked new text");
+        button.setVisibility(View.INVISIBLE);
+        send.setVisibility(View.VISIBLE);
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(new TableRow.LayoutParams( TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        EditText textview = new EditText(this);
+        textview = new EditText(this);
         //textview.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         textview.setWidth((Resources.getSystem().getDisplayMetrics().widthPixels / 3) * 2);
         //InputFilter[] filters = new InputFilter[1];
         //filters[0] = new InputFilter.LengthFilter(10);
         //textview .setFilters(filters);
-        textview.setBackgroundResource(R.color.userText);
+        textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_user));
         textview.setMaxLines(10);
         textview.setText("");
         textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
@@ -59,6 +63,23 @@ public class TextActivity extends AppCompatActivity {
         textview.setFocusableInTouchMode(true);
         Log.d("text", textview.toString());
         showSoftKeyboard(textview);
+    }
+
+    public void sendText(View v)
+    {
+        Log.d("send text", "clicked send text");
+        send.setVisibility(View.INVISIBLE);
+        button.setVisibility(View.VISIBLE);
+
+        hideSoftKeyboard(textview);
+        textview.setEnabled(false);
+        textview.setTextColor(getResources().getColor(R.color.black));
+        textview = null;
+    }
+
+    public void hideSoftKeyboard(View view){
+        InputMethodManager imm =(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public void showSoftKeyboard(View view){

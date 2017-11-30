@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="userText">#00ccff</color>
     <color name="compText">#00ff00</color>
+    <color name="black">#000000</color>
 </resources>

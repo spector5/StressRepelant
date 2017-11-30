@@ -8,7 +8,8 @@
     <string name="login_name">Username</string>
     <string name="login_pass">Password</string>
 
-    <string name="new_text">New text</string>
+    <string name="new_text">New Text</string>
+    <string name="text_send">Send Text</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
