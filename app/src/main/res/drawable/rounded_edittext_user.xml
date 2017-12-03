@@ -4,6 +4,12 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/userText"/>
             <corners android:radius="10dp" />
+            <padding
+                android:left="12dp"
+                android:right="12dp"
+                android:top="8dp"
+                android:bottom="8dp"
+                />
             <stroke
                 android:width="2dp"
                 android:color="@color/userText"

@@ -57,7 +57,9 @@ public class TextActivity extends AppCompatActivity {
         textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
 
         textview.requestFocus();
-        tr.addView(textview);
+        TableRow.LayoutParams lp = new TableRow.LayoutParams();
+        lp.setMargins(0, 0, 0, 40);
+        tr.addView(textview, lp);
         tl.addView(tr);
 
         textview.setFocusableInTouchMode(true);
