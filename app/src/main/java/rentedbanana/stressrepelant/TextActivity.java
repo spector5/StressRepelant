@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 public class TextActivity extends AppCompatActivity {
 
@@ -19,6 +21,9 @@ public class TextActivity extends AppCompatActivity {
     private Button button;
     private Button send;
     private EditText textview = null;
+    private boolean submitted;
+    private Context context;
+    private String response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,43 @@ public class TextActivity extends AppCompatActivity {
         button = (Button)findViewById(R.id.button);
         send = (Button)findViewById(R.id.sendText);
         send.setVisibility(View.INVISIBLE);
+        submitted = false;
+        context = this.context;
+
+        // commented out because this isnt the proper way to update screen
+        // TODO but, this is where we can process the computer response, its just an issue with updating the screen
+        /*new Thread(new Runnable() {
+            public void run() {
+                while(true)
+                {
+                    if (submitted)
+                    {
+                        // TODO this is where computer response goes
+                        response = "This is the computer response.";
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TableRow tr = new TableRow(context);
+                                tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT));
+                                TextView textview = new TextView(context);
+                                textview.setGravity(Gravity.LEFT);
+                                textview.setWidth((Resources.getSystem().getDisplayMetrics().widthPixels / 3) * 2);
+
+                                textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
+                                textview.setMaxLines(10);
+                                textview.setText(response);
+                                //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
+
+                                //textview.requestFocus();
+                                tr.addView(textview);
+                                tl.addView(tr);;
+                            }
+                        }); // end runOnUIThread
+                    }
+                }   // end while loop
+            }   // end thread run method
+        }).start();*/
     }
 
     /**
@@ -77,6 +119,8 @@ public class TextActivity extends AppCompatActivity {
         textview.setEnabled(false);
         textview.setTextColor(getResources().getColor(R.color.black));
         textview = null;
+
+        submitted = true;
     }
 
     public void hideSoftKeyboard(View view){
