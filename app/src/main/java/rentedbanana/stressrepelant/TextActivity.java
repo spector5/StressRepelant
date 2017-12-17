@@ -35,11 +35,11 @@ public class TextActivity extends AppCompatActivity {
         send = (Button)findViewById(R.id.sendText);
         send.setVisibility(View.INVISIBLE);
         submitted = false;
-        context = this.context;
+        context = this;
 
         // commented out because this isnt the proper way to update screen
         // TODO but, this is where we can process the computer response, its just an issue with updating the screen
-        /*new Thread(new Runnable() {
+        new Thread(new Runnable() {
             public void run() {
                 while(true)
                 {
@@ -52,7 +52,7 @@ public class TextActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 TableRow tr = new TableRow(context);
-                                tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT));
+                                tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                                 TextView textview = new TextView(context);
                                 textview.setGravity(Gravity.LEFT);
                                 textview.setWidth((Resources.getSystem().getDisplayMetrics().widthPixels / 3) * 2);
@@ -63,14 +63,17 @@ public class TextActivity extends AppCompatActivity {
                                 //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
 
                                 //textview.requestFocus();
-                                tr.addView(textview);
-                                tl.addView(tr);;
+                                TableRow.LayoutParams lp = new TableRow.LayoutParams();
+                                lp.setMargins(0, 0, 0, 40);
+                                tr.addView(textview, lp);
+                                tl.addView(tr);
                             }
                         }); // end runOnUIThread
+                        submitted = false;
                     }
                 }   // end while loop
             }   // end thread run method
-        }).start();*/
+        }).start();
     }
 
     /**
