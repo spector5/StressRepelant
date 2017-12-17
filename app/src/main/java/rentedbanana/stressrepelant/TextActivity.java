@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TextActivity extends AppCompatActivity {
 
@@ -121,12 +122,17 @@ public class TextActivity extends AppCompatActivity {
         hideSoftKeyboard(textview);
         textview.setEnabled(false);
         textview.setTextColor(getResources().getColor(R.color.black));
-        Dictionary.countPositive(textview.getText().toString());
-        textview = null;
 
-        // testing my branch
-        // this should be on alane
-        // not on master
+        if (Dictionary.countPositive(textview.getText().toString()) > Dictionary.countNegative(textview.getText().toString())) {
+            Toast.makeText(context, "Positive message", Toast.LENGTH_LONG);
+            Log.d("toasted", "positive");
+        }
+        else {
+            Toast.makeText(context, "Negative message", Toast.LENGTH_LONG);
+            Log.d("toasted", "negative");
+        }
+
+        textview = null;
 
         submitted = true;
     }
