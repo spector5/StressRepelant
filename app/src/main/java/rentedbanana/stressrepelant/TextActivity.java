@@ -124,6 +124,10 @@ public class TextActivity extends AppCompatActivity {
         Dictionary.countPositive(textview.getText().toString());
         textview = null;
 
+        // testing my branch
+        // this should be on alane
+        // not on master
+
         submitted = true;
     }
 
