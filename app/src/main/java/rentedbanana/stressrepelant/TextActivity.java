@@ -111,13 +111,14 @@ public class TextActivity extends AppCompatActivity {
 
     public void sendText(View v)
     {
-        Log.d("send text", "clicked send text");
+        Log.d("send text", "clicked send text...");
         send.setVisibility(View.INVISIBLE);
         button.setVisibility(View.VISIBLE);
 
         hideSoftKeyboard(textview);
         textview.setEnabled(false);
         textview.setTextColor(getResources().getColor(R.color.black));
+        Dictionary.countPositive(textview.getText().toString());
         textview = null;
 
         submitted = true;
