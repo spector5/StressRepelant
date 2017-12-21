@@ -87,21 +87,17 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
      */
     public void newText(View v)
     {
-        // TODO need to change what the button does (needs to send)
-        // not sure how to switch it back, might be able to use bool flag
-        //button.setText("Send");
         Log.d("new text", "clicked new text");
         button.setVisibility(View.INVISIBLE);
         send.setVisibility(View.VISIBLE);
+
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(new TableRow.LayoutParams( TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         textview = new EditText(this);
-        //textview.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         textview.setWidth((screenWidth / 3) * 2);
-        //InputFilter[] filters = new InputFilter[1];
-        //filters[0] = new InputFilter.LengthFilter(10);
-        //textview .setFilters(filters);
+
         textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_user));
         textview.setMaxLines(10);
         textview.setText("");
@@ -136,7 +132,6 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
 
         submitted = true;
 
-        // TODO but, this is where we can process the computer response, its just an issue with updating the screen
         new Thread(new Runnable() {
             public void run() {
                 // TODO this is where computer response goes
@@ -167,10 +162,6 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 }); // end runOnUIThread
             }   // end thread run method
         }).start();
-
-        // testing my branch
-        // this should be on alane
-        // not on master
     }
 
     public void hideSoftKeyboard(View view){
