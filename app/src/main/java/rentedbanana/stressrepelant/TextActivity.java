@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayDeque;
 
@@ -128,6 +129,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
         hideSoftKeyboard(textview);
         textview.setEnabled(false);
         textview.setTextColor(getResources().getColor(R.color.black));
+
         Dictionary.countPositive(textview.getText().toString());
         inputLog.push(textview.getText().toString());
         textview = null;

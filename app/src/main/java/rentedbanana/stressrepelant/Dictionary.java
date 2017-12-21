@@ -10,13 +10,17 @@ import java.util.Arrays;
  * Created by Austin on 12/14/2017.
  */
 
+// TODO I can break some phrases into regexs to cover more phrases with less loops
+// ex. I'm pretty sure that's happening = im [non negative word] sure thats happening
 public final class Dictionary
 {
     private static final ArrayList<String> positiveDict = new ArrayList<>(Arrays.asList("yes", "yeah",
             "it does", "i believe so", "thats what i think", "most of the time", "affirmative",
             "every time", "usually", "all of the time", "all the time", "agree", "i just said",
             "what i said", "agreed", "agree", "i think so", "i should think so", "i would think so",
-            "whenever i", "everytime", "always", "dont disagree", "do not disagree"));
+            "whenever i", "everytime", "always", "dont disagree", "do not disagree",
+            "i think that is whats happening", "i think thats whats happening", "i think thats what is happening",
+            "i think thats happening", "i think that is happening"));
 
     private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no", "nah",
             "it does not", "it doesnt", "dont believe so", "do not believe so", "not what i think",
@@ -60,6 +64,7 @@ public final class Dictionary
                 count++;
         }
 
+        Log.d("neg", String.valueOf(count));
         return count;
     }
 }
