@@ -38,7 +38,8 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private int condition;  // 1 = seperation anxiety, 2 = selective mutism, 3 = specific phobia,
     // 4 = social anxiety, 5 = panic disorder
     private int questionNum;
-    private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList("Does it refer to separation from those that you are attached to?"));
+    private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter()));
+    private Condition cond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,8 +197,33 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 {
                     if (Dictionary.countPositive(inputLog.getLast()) > Dictionary.countNegative(inputLog.getLast()))
                     {
+                        state++;
+                        switch (condition)
+                        {
+                            case 1:
+                                cond = new SeparationAnxiety();
+                                response = cond.getQuestion(questionNum++);
+                                break;
+                            default:
+                                response = "Something went wrong, I don't think I can help you. Sorry.";
+                                break;
+                        }
+                    }
+                    else
+                    {
                         condition++;
-                        response = "Ok, let's explore this more. " + condQuestions.get(condition - 1);
+                        response = condQuestions.get(condition - 1);
+                    }
+                }
+                else if (state == 2)
+                {
+                    try {
+                        if (Dictionary.countPositive(inputLog.getLast()) > Dictionary.countNegative(inputLog.getLast()))
+                            response = "You answered in agreement. " + cond.getQuestion(questionNum++);
+                        else
+                            response = "You answered in disagreement. " + cond.getQuestion(questionNum++);
+                    } catch (IndexOutOfBoundsException e) {
+                        // end questioning and give advice
                     }
                 }
 

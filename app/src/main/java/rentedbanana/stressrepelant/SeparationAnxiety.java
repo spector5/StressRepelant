@@ -1,5 +1,7 @@
 package rentedbanana.stressrepelant;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,8 +9,10 @@ import java.util.Arrays;
  * Created by Austin on 12/21/2017.
  */
 
-public final class SeparationAnxiety
+public class SeparationAnxiety implements Condition
 {
+    private static final String starter = "Does it refer to separation from those that you are attached to?";
+
     private final ArrayList<String> questions = new ArrayList<>(Arrays.asList("How long has the symptoms lasted?",
             "Do the disturbances causes significant distress in social, academic, occupational, or other important areas of functioning?",
             "Are there recurrent excessive distress when anticipating separation from home or from major attachment figures?",
@@ -19,4 +23,14 @@ public final class SeparationAnxiety
             "Is there persistent reluctance or refusal to sleep away from home or to got to sleep without being near a major attachment figure?",
             "Are there repeated nightmares involving the theme of separation?",
             "Are there repeated complaints of physical symptoms when separation from major attachment figures occurs or is anticipated?"));
+
+    public static String getStarter()
+    {
+        return starter;
+    }
+
+    public String getQuestion(int num)
+    {
+        return questions.get(num);
+    }
 }
