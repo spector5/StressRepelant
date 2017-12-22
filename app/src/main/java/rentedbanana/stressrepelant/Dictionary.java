@@ -86,8 +86,16 @@ public final class Dictionary
 
                 if (string.contains(first) && string.contains(second))
                 {
-                    String key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                    String key = "";
+                    try{
+                        key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        Log.d("pos", "did not find adj");
+                    }
+
                     Log.d("run", "!" + key + "!");
+                    if (key.equals("") || posAdjective.contains(key))
+                        count++;
                 }
             }
             else if (string.contains(positiveDict.get(i))) {

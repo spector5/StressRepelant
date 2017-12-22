@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TextActivity extends AppCompatActivity implements TaskFragment.TaskCallbacks {
 
@@ -32,11 +34,20 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private boolean submitted = true;
     private String response;
     private ArrayDeque<String> inputLog;
+    private int state;  // 0 = initial, 1 = finding what ccondition to check for, 2 = checking condition
+    private int condition;  // 1 = seperation anxiety, 2 = selective mutism, 3 = specific phobia,
+    // 4 = social anxiety, 5 = panic disorder
+    private int questionNum;
+    private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList("Does it refer to separation from those that you are attached to?"));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
+
+        state = 0;
+        condition = 0;
+        questionNum = 0;
 
         FragmentManager fm = getFragmentManager();
         mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
@@ -79,6 +90,37 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
             }
         }
         mTaskFragment.tl = tl;
+
+        new Thread(new Runnable() {
+            public void run() {
+                // TODO this is where computer response goes
+                //int count = Dictionary.countPositive(inputLog.peek());
+                response = "Are you having problems today?";
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TableRow tr = new TableRow(context);
+                        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                        TextView textview = new TextView(context);
+                        textview.setGravity(Gravity.LEFT);
+                        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+                        textview.setWidth((screenWidth / 3) * 2);
+
+                        textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
+                        textview.setMaxLines(10);
+                        textview.setText(response);
+                        //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
+
+                        //textview.requestFocus();
+                        TableRow.LayoutParams lp = new TableRow.LayoutParams();
+                        lp.setMargins(screenWidth - (76 + (screenWidth / 3) * 2), 0, 0, 40);
+                        tr.addView(textview, lp);
+                        tl.addView(tr);
+                    }
+                }); // end runOnUIThread
+            }   // end thread run method
+        }).start();
     }
 
     /**
@@ -126,7 +168,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
         textview.setEnabled(false);
         textview.setTextColor(getResources().getColor(R.color.black));
 
-        Dictionary.countPositive(textview.getText().toString());
+        //Dictionary.countPositive(textview.getText().toString());
         inputLog.push(textview.getText().toString());
         textview = null;
 
@@ -137,6 +179,27 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 // TODO this is where computer response goes
                 int count = Dictionary.countPositive(inputLog.peek());
                 response = "Debug: user input contained " + count + " positive indicators.";
+                if (state == 0)
+                {
+                    if (Dictionary.countPositive(inputLog.getLast()) > Dictionary.countNegative(inputLog.getLast()))
+                    {
+                        state++;
+                        condition++;
+                        response = "Ok, let's explore this more. " + condQuestions.get(condition - 1);
+                    }
+                    else
+                    {
+                        response = "Ok then, you are fine today.";
+                    }
+                }
+                else if (state == 1)
+                {
+                    if (Dictionary.countPositive(inputLog.getLast()) > Dictionary.countNegative(inputLog.getLast()))
+                    {
+                        condition++;
+                        response = "Ok, let's explore this more. " + condQuestions.get(condition - 1);
+                    }
+                }
 
                 runOnUiThread(new Runnable() {
                     @Override
