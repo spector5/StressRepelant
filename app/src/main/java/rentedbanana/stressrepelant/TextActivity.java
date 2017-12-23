@@ -178,11 +178,13 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
         new Thread(new Runnable() {
             public void run() {
                 // TODO this is where computer response goes
-                int count = Dictionary.countPositive(inputLog.peek());
-                response = "Debug: user input contained " + count + " positive indicators.";
+                //int count = Dictionary.countPositive(inputLog.peek());
+                //response = "Debug: user input contained " + count + " positive indicators.";
+                response = "";
+
                 if (state == 0)
                 {
-                    if (Dictionary.countPositive(inputLog.getLast()) > Dictionary.countNegative(inputLog.getLast()))
+                    if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                     {
                         state++;
                         condition++;
@@ -195,7 +197,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 }
                 else if (state == 1)
                 {
-                    if (Dictionary.countPositive(inputLog.getLast()) > Dictionary.countNegative(inputLog.getLast()))
+                    if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                     {
                         state++;
                         switch (condition)
@@ -218,7 +220,8 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 else if (state == 2)
                 {
                     try {
-                        if (Dictionary.countPositive(inputLog.getLast()) > Dictionary.countNegative(inputLog.getLast()))
+                        Log.d("state", "2");
+                        if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                             response = "You answered in agreement. " + cond.getQuestion(questionNum++);
                         else
                             response = "You answered in disagreement. " + cond.getQuestion(questionNum++);

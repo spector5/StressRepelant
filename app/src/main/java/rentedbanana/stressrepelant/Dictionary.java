@@ -27,6 +27,9 @@ public final class Dictionary
             "undoubtedly", "admittedly", "should", "would", "distinctly"));
 
     private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no"));
+
+    private static final ArrayList<String> timeDict = new ArrayList<>(Arrays.asList("[num] months", "[num] weeks",
+            "[num] days"));
     /*
     This is version 1 of the dictionary, i will leave it just incase something goes wrong
     This was made before I started using 4 lists for more generalized responses
@@ -71,7 +74,6 @@ public final class Dictionary
 
     public static int countPositive(String text)
     {
-        Log.d("pos text", text);
         String string = cleanString(text);
         Log.d("pos clean", string);
         int count = 0;
@@ -99,7 +101,7 @@ public final class Dictionary
                 }
             }
             else if (string.contains(positiveDict.get(i))) {
-                Log.d("pos", "match " + positiveDict.get(i));
+                //Log.d("pos", "match " + positiveDict.get(i));
                 count++;
             }
         }
@@ -111,6 +113,7 @@ public final class Dictionary
     public static int countNegative(String text)
     {
         String string = cleanString(text);
+        Log.d("neg clean", string);
         int count = 0;
 
         // dictionary could become very large, brainstorm preprocessing that can reduce number of loops
