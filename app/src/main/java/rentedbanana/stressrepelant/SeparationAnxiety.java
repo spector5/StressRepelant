@@ -9,6 +9,10 @@ import java.util.Arrays;
 
 public class SeparationAnxiety implements Condition
 {
+    private int duration;
+    private int criteria;
+    private int subcriteria;
+
     private static final String starter = "Does it refer to separation from those that you are attached to?";
 
     private final ArrayList<String> questions = new ArrayList<>(Arrays.asList("How long has the symptoms lasted?",
@@ -22,6 +26,13 @@ public class SeparationAnxiety implements Condition
             "Are there repeated nightmares involving the theme of separation?",
             "Are there repeated complaints of physical symptoms when separation from major attachment figures occurs or is anticipated?"));
 
+    public SeparationAnxiety()
+    {
+        this.duration = 0;
+        this.criteria = 0;
+        this.subcriteria = 0;
+    }
+
     public static String getStarter()
     {
         return starter;
@@ -30,5 +41,138 @@ public class SeparationAnxiety implements Condition
     public String getQuestion(int num)
     {
         return questions.get(num);
+    }
+
+    public String makeResponse()
+    {
+        return "";
+    }
+
+    public boolean sendAnswer(String ans, int num)
+    {
+        int countPos;
+        int countNeg;
+
+        switch(num)
+        {
+            case 0:
+                if ((duration = Dictionary.countDays(ans)) > 0) {
+                    // TODO must communicate with server to get age, for now assuming adult user
+                    if (duration < 180)
+                        criteria++;
+                    return true;
+                }
+                break;
+            case 1:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    criteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 2:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 3:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 4:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 5:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 6:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 7:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 8:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            case 9:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    subcriteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+        }
+
+        return false;
     }
 }

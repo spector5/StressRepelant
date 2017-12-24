@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Dictionary used to check messages for positive or negative responses
@@ -11,7 +13,6 @@ import java.util.Arrays;
  */
 
 // TODO I can break some phrases into regexs to cover more phrases with less loops
-// ex. I'm pretty sure that's happening = im [non negative word] sure thats happening
 public final class Dictionary
 {
     private static final ArrayList<String> positiveDict = new ArrayList<>(Arrays.asList("yes", "yeah",
@@ -28,8 +29,23 @@ public final class Dictionary
 
     private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no"));
 
-    private static final ArrayList<String> timeDict = new ArrayList<>(Arrays.asList("[num] months", "[num] weeks",
-            "[num] days"));
+    private static final HashMap<String, Integer> timeDict =  new HashMap<>(Collections.unmodifiableMap(
+            new HashMap<String, Integer>() {
+                {
+                    put("[num] months", 0);
+                    put("[num] weeks", 0);
+                    put("[num] days", 0);
+                    put("[num] years", 0);
+                    put("[num] month", 0);
+                    put("[num] week", 0);
+                    put("[num] day", 0);
+                    put("[num] year", 0);
+                    put("a day", 1);
+                    put("a week", 7);
+                    put("a month", 30);
+                    put("a year", 365);
+                }
+            }));
     /*
     This is version 1 of the dictionary, i will leave it just incase something goes wrong
     This was made before I started using 4 lists for more generalized responses
@@ -70,6 +86,40 @@ public final class Dictionary
         str = str.replaceAll("[-+.^:,'\"]","");
 
         return str;
+    }
+
+    public static int countDays(String text)
+    {
+        String string = cleanString(text);
+        Log.d("days clean", string);
+        int duration = -1;
+
+        for (String key : timeDict.keySet())
+        {
+            if (key.contains("[")) {
+                String unit = key.substring(key.indexOf("[") + 6, key.length());
+
+                if (string.contains(unit))
+                {
+                    String key = "";
+                    try{
+                        key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        Log.d("pos", "did not find adj");
+                    }
+
+                    Log.d("run", "!" + key + "!");
+                    if (key.equals("") || posAdjective.contains(key))
+                        count++;
+                }
+            }
+            else if (string.contains(key)) {
+                //Log.d("pos", "match " + positiveDict.get(i));
+                duration = timeDict.get(key);
+            }
+        }
+
+        return duration;
     }
 
     public static int countPositive(String text)

@@ -7,4 +7,6 @@ package rentedbanana.stressrepelant;
 public interface Condition
 {
     String getQuestion(int num);
+    boolean sendAnswer(String ans, int num);
+    String makeResponse();
 }

@@ -204,7 +204,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         {
                             case 1:
                                 cond = new SeparationAnxiety();
-                                response = cond.getQuestion(questionNum++);
+                                response = cond.getQuestion(questionNum);
                                 break;
                             default:
                                 response = "Something went wrong, I don't think I can help you. Sorry.";
@@ -221,10 +221,13 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 {
                     try {
                         Log.d("state", "2");
-                        if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
+                        cond.sendAnswer(inputLog.getFirst(), questionNum++);
+                        /*if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
+                        {
                             response = "You answered in agreement. " + cond.getQuestion(questionNum++);
+                        }
                         else
-                            response = "You answered in disagreement. " + cond.getQuestion(questionNum++);
+                            response = "You answered in disagreement. " + cond.getQuestion(questionNum++);*/
                     } catch (IndexOutOfBoundsException e) {
                         // end questioning and give advice
                     }
