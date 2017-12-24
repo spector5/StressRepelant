@@ -197,11 +197,9 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 }
                 else if (state == 1)
                 {
-                    if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
-                    {
+                    if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst())) {
                         state++;
-                        switch (condition)
-                        {
+                        switch (condition) {
                             case 1:
                                 cond = new SeparationAnxiety();
                                 response = cond.getQuestion(questionNum);
@@ -213,8 +211,12 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                     }
                     else
                     {
-                        condition++;
-                        response = condQuestions.get(condition - 1);
+                        try {
+                            condition++;
+                            response = condQuestions.get(condition - 1);
+                        } catch (IndexOutOfBoundsException e) {
+                            response = "I'm not sure I know of anything else to check.";
+                        }
                     }
                 }
                 else if (state == 2)
@@ -230,6 +232,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                             response = "You answered in disagreement. " + cond.getQuestion(questionNum++);*/
                     } catch (IndexOutOfBoundsException e) {
                         // end questioning and give advice
+                        response = cond.makeResponse();
                     }
                 }
 

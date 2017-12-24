@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * Dictionary used to check messages for positive or negative responses
@@ -46,6 +47,47 @@ public final class Dictionary
                     put("a year", 365);
                 }
             }));
+
+    private static final HashMap<String, Integer> numbers =  new HashMap<>(Collections.unmodifiableMap(
+            new HashMap<String, Integer>() {
+                {
+                    put("zero", 0);
+                    put("one", 1);
+                    put("two", 2);
+                    put("three", 3);
+                    put("four", 4);
+                    put("five", 5);
+                    put("six", 6);
+                    put("seven", 7);
+                    put("eight", 8);
+                    put("nine", 9);
+                    put("ten", 10);
+                    put("eleven", 11);
+                    put("twelve", 12);
+                    put("thirteen", 13);
+                    put("fourteen", 14);
+                    put("fifteen", 15);
+                    put("sixteen", 16);
+                    put("seventeen", 17);
+                    put("eighteen", 18);
+                    put("nineteen", 19);
+                }
+            }));
+
+    private static final HashMap<String, Integer> numbersPrefix =  new HashMap<>(Collections.unmodifiableMap(
+            new HashMap<String, Integer>() {
+                {
+                    put("twenty", 20);
+                    put("thirty", 30);
+                    put("fourty", 40);
+                    put("fifty", 50);
+                    put("sixty", 60);
+                    put("seventy", 70);
+                    put("eighty", 80);
+                    put("ninety", 90);
+                    put("hundred", 100);
+                }
+            }));
     /*
     This is version 1 of the dictionary, i will leave it just incase something goes wrong
     This was made before I started using 4 lists for more generalized responses
@@ -83,18 +125,62 @@ public final class Dictionary
         str = str.replaceAll("'ve"," have");
         str = str.replaceAll("'re"," are");
 
-        str = str.replaceAll("[-+.^:,'\"]","");
-
+        str = str.replaceAll("[+.^:,'\"]","");
+        str = str.replaceAll("-", " ");
         return str;
+    }
+
+    private static String cleanNumber(String str)
+    {
+        StringTokenizer toke = new StringTokenizer(str, " ,.", false);
+        int num;
+
+        if (str.contains("hundred"))
+        {
+            String prev = "";
+            String next = "";
+            String cur;
+            while (toke.hasMoreTokens())
+            {
+                cur = toke.nextToken();
+                if (cur == "hundred")
+                {
+                    num = numbersPrefix.get(cur) * Integer.parseInt(prev);
+                    next = toke.nextToken();
+                    if (next == "and")
+                        next = toke.nextToken();
+
+                    if (numbersPrefix.get(next) != null)
+                    {
+                        num += numbersPrefix.get(next);
+                        next = toke.nextToken();
+                        if (numbers.get(next) != null)
+                            num += numbers.get(next);
+                    }
+                    else if (numbers.get(next) != null)
+                        num += numbers.get(next);
+                }
+                else
+                    prev = cur;
+            }
+        }
+        else
+        {
+
+        }
+
+        return "";
     }
 
     public static int countDays(String text)
     {
         String string = cleanString(text);
         Log.d("days clean", string);
+        string = cleanNumber(string);
         int duration = -1;
 
-        for (String key : timeDict.keySet())
+        //duration = Integer.parseInt(string);
+        /*for (String key : timeDict.keySet())
         {
             if (key.contains("[")) {
                 String unit = key.substring(key.indexOf("[") + 6, key.length());
@@ -117,7 +203,7 @@ public final class Dictionary
                 //Log.d("pos", "match " + positiveDict.get(i));
                 duration = timeDict.get(key);
             }
-        }
+        }*/
 
         return duration;
     }

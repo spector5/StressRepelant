@@ -45,7 +45,13 @@ public class SeparationAnxiety implements Condition
 
     public String makeResponse()
     {
-        return "";
+        if (subcriteria >= 3)
+            criteria++;
+
+        if (criteria >= 2)
+            return "I believe you have Separation Anxiety.";
+        else
+            return "You seem to be fine.";
     }
 
     public boolean sendAnswer(String ans, int num)
