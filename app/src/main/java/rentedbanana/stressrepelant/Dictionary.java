@@ -134,31 +134,50 @@ public final class Dictionary
     {
         StringTokenizer toke = new StringTokenizer(str, " ,.", false);
         int num;
+        String prev = "";
+        String cur;
+        StringBuilder ret = new StringBuilder();
 
         if (str.contains("hundred"))
         {
-            String prev = "";
+            Log.d("in num", "found hundred");
             String next = "";
-            String cur;
             while (toke.hasMoreTokens())
             {
                 cur = toke.nextToken();
-                if (cur == "hundred")
+
+                if (!numbers.containsKey(cur) && !cur.equals("hundred"))
+                    ret.append(cur + " ");
+
+                Log.d("in num", "!!" + cur + "!!");
+                if (cur.equals("hundred"))
                 {
-                    num = numbersPrefix.get(cur) * Integer.parseInt(prev);
+                    Log.d("in num", "found hundred again...");
+                    num = numbersPrefix.get(cur) * numbers.get(prev);
                     next = toke.nextToken();
                     if (next == "and")
                         next = toke.nextToken();
 
-                    if (numbersPrefix.get(next) != null)
+                    if (numbersPrefix.containsKey(next))
                     {
                         num += numbersPrefix.get(next);
                         next = toke.nextToken();
-                        if (numbers.get(next) != null)
+                        if (numbers.containsKey(next))
                             num += numbers.get(next);
                     }
-                    else if (numbers.get(next) != null)
+                    else if (numbers.containsKey(next))
                         num += numbers.get(next);
+
+                    Log.d("in num", "num = " + num);
+                    ret.append(num + " ");
+
+                    if (!numbers.containsKey(next) && !numbersPrefix.containsKey(next))
+                        ret.append(next + " ");
+
+                    while(toke.hasMoreTokens())
+                        ret.append(toke.nextToken() + " ");
+
+                    break;
                 }
                 else
                     prev = cur;
@@ -166,10 +185,31 @@ public final class Dictionary
         }
         else
         {
+            prev = toke.nextToken();
+            if (!numbersPrefix.containsKey(prev) && !numbers.containsKey(prev))
+                ret.append(prev + " ");
 
+            while (toke.hasMoreTokens())
+            {
+                cur = toke.nextToken();
+                if (!numbersPrefix.containsKey(cur) && !numbers.containsKey(cur))
+                    ret.append(cur + " ");
+
+                if (numbers.containsKey(cur))
+                {
+                    num = numbers.get(cur);
+                    if (numbersPrefix.containsKey(prev))
+                        num += numbersPrefix.get(prev);
+
+                    while (toke.hasMoreTokens())
+                        ret.append(toke.nextToken() + " ");
+
+                    break;
+                }
+            }
         }
 
-        return "";
+        return ret.toString();
     }
 
     public static int countDays(String text)
@@ -177,6 +217,7 @@ public final class Dictionary
         String string = cleanString(text);
         Log.d("days clean", string);
         string = cleanNumber(string);
+        Log.d("num clean", string);
         int duration = -1;
 
         //duration = Integer.parseInt(string);
