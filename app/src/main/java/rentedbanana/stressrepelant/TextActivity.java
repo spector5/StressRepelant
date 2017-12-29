@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TextActivity extends AppCompatActivity implements TaskFragment.TaskCallbacks {
 
@@ -32,11 +34,21 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private boolean submitted = true;
     private String response;
     private ArrayDeque<String> inputLog;
+    private int state;  // 0 = initial, 1 = finding what ccondition to check for, 2 = checking condition
+    private int condition;  // 1 = seperation anxiety, 2 = selective mutism, 3 = specific phobia,
+    // 4 = social anxiety, 5 = panic disorder
+    private int questionNum;
+    private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter()));
+    private Condition cond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
+
+        state = 0;
+        condition = 0;
+        questionNum = 0;
 
         FragmentManager fm = getFragmentManager();
         mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
@@ -79,6 +91,37 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
             }
         }
         mTaskFragment.tl = tl;
+
+        new Thread(new Runnable() {
+            public void run() {
+                // TODO this is where computer response goes
+                //int count = Dictionary.countPositive(inputLog.peek());
+                response = "Are you having problems today?";
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TableRow tr = new TableRow(context);
+                        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                        TextView textview = new TextView(context);
+                        textview.setGravity(Gravity.LEFT);
+                        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+                        textview.setWidth((screenWidth / 3) * 2);
+
+                        textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
+                        textview.setMaxLines(10);
+                        textview.setText(response);
+                        //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
+
+                        //textview.requestFocus();
+                        TableRow.LayoutParams lp = new TableRow.LayoutParams();
+                        lp.setMargins(screenWidth - (76 + (screenWidth / 3) * 2), 0, 0, 40);
+                        tr.addView(textview, lp);
+                        tl.addView(tr);
+                    }
+                }); // end runOnUIThread
+            }   // end thread run method
+        }).start();
     }
 
     /**
@@ -87,21 +130,17 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
      */
     public void newText(View v)
     {
-        // TODO need to change what the button does (needs to send)
-        // not sure how to switch it back, might be able to use bool flag
-        //button.setText("Send");
         Log.d("new text", "clicked new text");
         button.setVisibility(View.INVISIBLE);
         send.setVisibility(View.VISIBLE);
+
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(new TableRow.LayoutParams( TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         textview = new EditText(this);
-        //textview.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         textview.setWidth((screenWidth / 3) * 2);
-        //InputFilter[] filters = new InputFilter[1];
-        //filters[0] = new InputFilter.LengthFilter(10);
-        //textview .setFilters(filters);
+
         textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_user));
         textview.setMaxLines(10);
         textview.setText("");
@@ -130,18 +169,81 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
         textview.setEnabled(false);
         textview.setTextColor(getResources().getColor(R.color.black));
 
-        Dictionary.countPositive(textview.getText().toString());
+        //Dictionary.countPositive(textview.getText().toString());
         inputLog.push(textview.getText().toString());
         textview = null;
 
         submitted = true;
 
-        // TODO but, this is where we can process the computer response, its just an issue with updating the screen
         new Thread(new Runnable() {
             public void run() {
                 // TODO this is where computer response goes
-                int count = Dictionary.countPositive(inputLog.peek());
-                response = "Debug: user input contained " + count + " positive indicators.";
+                //int count = Dictionary.countPositive(inputLog.peek());
+                //response = "Debug: user input contained " + count + " positive indicators.";
+                response = "";
+
+                // runs at startup
+                if (state == 0)
+                {
+                    // user indicates they have a problem
+                    if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
+                    {
+                        state++;
+                        condition++;
+                        response = "Ok, let's explore this more. " + condQuestions.get(condition - 1);
+                    }
+                    else
+                    {
+                        response = "Ok then, you are fine today.";
+                    }
+                }
+                // runs when we know there is an issue
+                else if (state == 1)
+                {
+                    // user indicates they have whatever condition was asked
+                    if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst())) {
+                        state++;
+                        // switches on condition index to set cond to an instance of a condition
+                        switch (condition) {
+                            case 1:
+                                cond = new SeparationAnxiety();
+                                response = cond.getQuestion(questionNum);
+                                break;
+                            default:
+                                response = "Something went wrong, I don't think I can help you. Sorry.";
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        try {
+                            condition++;
+                            response = condQuestions.get(condition - 1);
+                        } catch (IndexOutOfBoundsException e) {
+                            // runs out of conditions
+                            response = "I'm not sure I know of anything else to check.";
+                        }
+                    }
+                }
+                // runs when condition is found
+                else if (state == 2)
+                {
+                    try {
+                        Log.d("state", "2");
+                        // send answer to condition, get next question
+                        cond.sendAnswer(inputLog.getFirst(), questionNum++);
+                        response = cond.getQuestion(questionNum);
+                        /* (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
+                        {
+                            response = "You answered in agreement. " + cond.getQuestion(questionNum++);
+                        }
+                        else
+                            response = "You answered in disagreement. " + cond.getQuestion(questionNum++);*/
+                    } catch (IndexOutOfBoundsException e) {
+                        // end questioning and give advice
+                        response = cond.makeResponse();
+                    }
+                }
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -167,10 +269,6 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 }); // end runOnUIThread
             }   // end thread run method
         }).start();
-
-        // testing my branch
-        // this should be on alane
-        // not on master
     }
 
     public void hideSoftKeyboard(View view){

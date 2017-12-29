@@ -4,6 +4,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * Dictionary used to check messages for positive or negative responses
@@ -11,9 +14,90 @@ import java.util.Arrays;
  */
 
 // TODO I can break some phrases into regexs to cover more phrases with less loops
-// ex. I'm pretty sure that's happening = im [non negative word] sure thats happening
 public final class Dictionary
 {
+    // all phrases of agreement
+    private static final ArrayList<String> positiveDict = new ArrayList<>(Arrays.asList("yes", "yeah",
+            "it does", "i believe so", "that is what i think", "most of the time", "affirmative", "every time",
+            "usually", "all of the time", "all the time", "agree", "what i said", "i just said", "agreed",
+            "i [pos] think so", "whenever i", "everytime", "always", "do not disagree",
+            "i think that is what is happening", "i am [pos] sure that is happening",
+            "i am [pos] sure that is what is happening"));
+
+    // any adjective that would be used in a positive response (replaces [pos] in above list)
+    private static final ArrayList<String> posAdjective = new ArrayList<>(Arrays.asList("definitely",
+            "really", "pretty", "absolutely", "positively", "surely", "truly", "unquestionably", "easily",
+            "decidedly", "decisively", "certainly", "genuinely", "honestly", "legitimately", "literally",
+            "undoubtedly", "admittedly", "should", "would", "distinctly"));
+
+    // all phrases of disagreement
+    private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no"));
+
+    // all phrases that indicate time that has passed and their equivelent number of days
+    private static final HashMap<String, Integer> timeDict =  new HashMap<>(Collections.unmodifiableMap(
+            new HashMap<String, Integer>() {
+                {
+                    put("[num] months", 30);
+                    put("[num] weeks", 7);
+                    put("[num] days", 1);
+                    put("[num] years", 365);
+                    put("[num] month", 30);
+                    put("[num] week", 7);
+                    put("[num] day", 1);
+                    put("[num] year", 365);
+                    put("a day", 1);
+                    put("a week", 7);
+                    put("a month", 30);
+                    put("a year", 365);
+                }
+            }));
+
+    // map of string numbers and their numeric counterpart
+    private static final HashMap<String, Integer> numbers =  new HashMap<>(Collections.unmodifiableMap(
+            new HashMap<String, Integer>() {
+                {
+                    put("zero", 0);
+                    put("one", 1);
+                    put("two", 2);
+                    put("three", 3);
+                    put("four", 4);
+                    put("five", 5);
+                    put("six", 6);
+                    put("seven", 7);
+                    put("eight", 8);
+                    put("nine", 9);
+                    put("ten", 10);
+                    put("eleven", 11);
+                    put("twelve", 12);
+                    put("thirteen", 13);
+                    put("fourteen", 14);
+                    put("fifteen", 15);
+                    put("sixteen", 16);
+                    put("seventeen", 17);
+                    put("eighteen", 18);
+                    put("nineteen", 19);
+                }
+            }));
+
+    // numbers that indicate the tens place
+    private static final HashMap<String, Integer> numbersPrefix =  new HashMap<>(Collections.unmodifiableMap(
+            new HashMap<String, Integer>() {
+                {
+                    put("twenty", 20);
+                    put("thirty", 30);
+                    put("forty", 40);
+                    put("fifty", 50);
+                    put("sixty", 60);
+                    put("seventy", 70);
+                    put("eighty", 80);
+                    put("ninety", 90);
+                    put("hundred", 100);
+                }
+            }));
+    /*
+    This is version 1 of the dictionary, i will leave it just incase something goes wrong
+    This was made before I started using 4 lists for more generalized responses
+
     private static final ArrayList<String> positiveDict = new ArrayList<>(Arrays.asList("yes", "yeah",
             "it does", "i believe so", "thats what i think", "most of the time", "affirmative",
             "every time", "usually", "all of the time", "all the time", "agree", "i just said",
@@ -28,21 +112,238 @@ public final class Dictionary
             "not what i said", "not what i just said", "didnt just say that", "did not just say that",
             "dont think so", "do not think so", "would not think so", "wouldnt think so", "should not think so",
             "shouldnt think so", "nope"));
+    */
 
+    /**
+     * Formats the string to be used with the dictionary
+     * @param str = unformatted string
+     * @return formatted string
+     */
+    private static String cleanString(String str)
+    {
+        str = str.toLowerCase();
+
+        // gets rid of contractions
+        str = str.replaceAll("n't"," not");
+        str = str.replaceAll("'s"," is");
+        str = str.replaceAll("'d"," would");
+        str = str.replaceAll("'ll"," will");
+        str = str.replaceAll("'m"," am");
+        str = str.replaceAll("'ve"," have");
+        str = str.replaceAll("'re"," are");
+
+        str = str.replaceAll("[+.^:,'\"]","");
+        str = str.replaceAll("-", " ");
+        return str;
+    }
+
+    /**
+     * Formats a string to be counted, converts numbers with letters to numbers that can be parsed into integers
+     * @param str = user text
+     * @return formatted string
+     */
+    private static String cleanNumber(String str)
+    {
+        StringTokenizer toke = new StringTokenizer(str, " ,.", false);
+        int num;    // numeric version of number
+        String prev = "";
+        String cur;
+        StringBuilder ret = new StringBuilder();    // string that will be returned
+
+        // used when user indicated something has happened for 100+ units
+        if (str.contains("hundred"))
+        {
+            String next = "";
+
+            // iterate through words in response
+            while (toke.hasMoreTokens())
+            {
+                cur = toke.nextToken();
+
+                // appends word if is not part of a number
+                if (!numbers.containsKey(cur) && !cur.equals("hundred"))
+                    ret.append(cur + " ");
+
+                //Log.d("in num", "!!" + cur + "!!");
+                if (cur.equals("hundred"))
+                {
+                    //Log.d("in num", "found hundred again...");
+                    // 100 * number (hundreds place)
+                    num = numbersPrefix.get(cur) * numbers.get(prev);
+
+                    // sees if a number is 100+, if so adds remainder to num
+                    if (toke.hasMoreTokens()) {
+                        next = toke.nextToken();
+
+                        // if using proper grammer, this and needs to be ignored
+                        if (next.equals("and"))
+                            next = toke.nextToken();
+
+                        // if remainder is 20+
+                        if (numbersPrefix.containsKey(next)) {
+                            num += numbersPrefix.get(next);
+                            next = toke.nextToken();
+                            if (numbers.containsKey(next))
+                                num += numbers.get(next);
+                        } else if (numbers.containsKey(next))   // if remainder is < 20
+                            num += numbers.get(next);
+                    }
+
+                    //Log.d("in num", "num = " + num);
+                    // append numeric version of number
+                    ret.append(num + " ");
+
+                    // append everything else
+                    if (!numbers.containsKey(next) && !numbersPrefix.containsKey(next))
+                        ret.append(next + " ");
+
+                    while(toke.hasMoreTokens())
+                        ret.append(toke.nextToken() + " ");
+
+                    break;
+                }
+                else
+                    prev = cur;
+            }
+        }
+        else    // if a number is less than 100
+        {
+            prev = toke.nextToken();
+            // append everything that isnt related to a number
+            if (!numbersPrefix.containsKey(prev) && !numbers.containsKey(prev))
+                ret.append(prev + " ");
+
+            while (toke.hasMoreTokens())
+            {
+                cur = toke.nextToken();
+                // append everything that isnt related to a number
+                if (!numbersPrefix.containsKey(cur) && !numbers.containsKey(cur))
+                    ret.append(cur + " ");
+
+                // if token is a number
+                if (numbers.containsKey(cur))
+                {
+                    num = numbers.get(cur);
+
+                    // checks if number is greater than 20
+                    if (numbersPrefix.containsKey(prev))
+                        num += numbersPrefix.get(prev);
+
+                    // append numeric version of number
+                    ret.append(num + " ");
+
+                    // append everything else
+                    while (toke.hasMoreTokens())
+                        ret.append(toke.nextToken() + " ");
+
+                    break;
+                }
+            }
+        }
+
+        return ret.toString();
+    }
+
+    /**
+     * Counts how many days a user has had whatever the question asks for
+     * @param text = user response
+     * @return number of days
+     */
+    public static int countDays(String text)
+    {
+        // formats string
+        String string = cleanString(text);
+        Log.d("days clean", string);
+        string = cleanNumber(string);
+        Log.d("num clean", string);
+        int duration = -1;
+
+        // iterate through all phrases in timeDict
+        for (String key : timeDict.keySet())
+        {
+            // if phrases has a variable length with a unit
+            if (key.contains("[")) {
+                String unit = key.substring(key.indexOf("[") + 6, key.length());
+
+                if (string.contains(unit))
+                {
+                    String number = "";
+                    String word = "";
+                    StringTokenizer toke = new StringTokenizer(string);
+
+                    if (toke.hasMoreTokens())
+                        word = toke.nextToken();
+
+                    // iterate through all words in text
+                    while (toke.hasMoreTokens())
+                    {
+                        number = word;
+                        word = toke.nextToken();
+
+                        if (word.equals(unit))
+                            break;
+                    }
+
+                    //Log.d("run", "!" + number + "!" + word + "!");
+
+                    try {
+                        // unit length * number
+                        duration = timeDict.get(key) * Integer.parseInt(number);
+                    } catch (NumberFormatException e) {
+                        // do nothing
+                    }
+                }
+            }
+            else if (string.contains(key)) {    // if phrases is directly related to a number
+                //Log.d("pos", "match " + positiveDict.get(i));
+                duration = timeDict.get(key);
+            }
+        }
+
+        Log.d("in days", String.valueOf(duration));
+        return duration;
+    }
+
+    /**
+     * Counts how many phrases indicate the user agrees with a question
+     * @param text = user response
+     * @return number of positive phrases
+     */
     public static int countPositive(String text)
     {
-        Log.d("pos text", text);
-        String string = text.toLowerCase();
-        Log.d("pos str", string);
+        // format string
+        String string = cleanString(text);
+        Log.d("pos clean", string);
         int count = 0;
 
-        string = string.replaceAll("[-+.^:,'\"]","");
-        Log.d("pos reg", string);
         // dictionary could become very large, brainstorm preprocessing that can reduce number of loops
         for (int i = 0; i < positiveDict.size(); i++)
         {
-            if (string.contains(positiveDict.get(i))) {
-                Log.d("pos", "match " + positiveDict.get(i));
+            // if phrase includes an adjective
+            if (positiveDict.get(i).contains("[")) {
+
+                // index before [ and index of first letter following ]
+                String first = positiveDict.get(i).substring(0, positiveDict.get(i).indexOf("[") - 1);
+                String second = positiveDict.get(i).substring(positiveDict.get(i).indexOf("[") + 6, positiveDict.get(i).length());
+
+                if (string.contains(first) && string.contains(second))
+                {
+                    String key = "";
+                    try{
+                        // gets adjective from string
+                        key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        Log.d("pos", "did not find adj");
+                    }
+
+                    Log.d("run", "!" + key + "!");
+                    // if adjective still indicates positive response
+                    if (key.equals("") || posAdjective.contains(key))
+                        count++;
+                }
+            }
+            else if (string.contains(positiveDict.get(i))) {    // found phrase with no adjective
+                //Log.d("pos", "match " + positiveDict.get(i));
                 count++;
             }
         }
@@ -51,12 +352,18 @@ public final class Dictionary
         return count;
     }
 
+    /**
+     * Counts how many phrases indicate the user disagrees with a question
+     * @param text = user response
+     * @return number of negative phrases
+     */
+    // TODO have not updated to version 2 dictionary yet
     public static int countNegative(String text)
     {
-        String string = text.toLowerCase();
+        String string = cleanString(text);
+        Log.d("neg clean", string);
         int count = 0;
 
-        string = string.replaceAll("[-+.^:,'\"]","");
         // dictionary could become very large, brainstorm preprocessing that can reduce number of loops
         for (int i = 0; i < negativeDict.size(); i++)
         {
