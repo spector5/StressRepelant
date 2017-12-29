@@ -79,7 +79,7 @@ public final class Dictionary
                 {
                     put("twenty", 20);
                     put("thirty", 30);
-                    put("fourty", 40);
+                    put("forty", 40);
                     put("fifty", 50);
                     put("sixty", 60);
                     put("seventy", 70);
@@ -140,7 +140,7 @@ public final class Dictionary
 
         if (str.contains("hundred"))
         {
-            Log.d("in num", "found hundred");
+            //Log.d("in num", "found hundred");
             String next = "";
             while (toke.hasMoreTokens())
             {
@@ -149,26 +149,28 @@ public final class Dictionary
                 if (!numbers.containsKey(cur) && !cur.equals("hundred"))
                     ret.append(cur + " ");
 
-                Log.d("in num", "!!" + cur + "!!");
+                //Log.d("in num", "!!" + cur + "!!");
                 if (cur.equals("hundred"))
                 {
-                    Log.d("in num", "found hundred again...");
+                    //Log.d("in num", "found hundred again...");
                     num = numbersPrefix.get(cur) * numbers.get(prev);
-                    next = toke.nextToken();
-                    if (next == "and")
+
+                    if (toke.hasMoreTokens()) {
                         next = toke.nextToken();
 
-                    if (numbersPrefix.containsKey(next))
-                    {
-                        num += numbersPrefix.get(next);
-                        next = toke.nextToken();
-                        if (numbers.containsKey(next))
+                        if (next.equals("and"))
+                            next = toke.nextToken();
+
+                        if (numbersPrefix.containsKey(next)) {
+                            num += numbersPrefix.get(next);
+                            next = toke.nextToken();
+                            if (numbers.containsKey(next))
+                                num += numbers.get(next);
+                        } else if (numbers.containsKey(next))
                             num += numbers.get(next);
                     }
-                    else if (numbers.containsKey(next))
-                        num += numbers.get(next);
 
-                    Log.d("in num", "num = " + num);
+                    //Log.d("in num", "num = " + num);
                     ret.append(num + " ");
 
                     if (!numbers.containsKey(next) && !numbersPrefix.containsKey(next))
@@ -221,22 +223,23 @@ public final class Dictionary
         int duration = -1;
 
         //duration = Integer.parseInt(string);
-        /*for (String key : timeDict.keySet())
+        // TODO i kind of forgot what I was doing with the first and second, so fix this
+        for (String key : timeDict.keySet())
         {
             if (key.contains("[")) {
                 String unit = key.substring(key.indexOf("[") + 6, key.length());
 
                 if (string.contains(unit))
                 {
-                    String key = "";
+                    String word = "";
                     try{
-                        key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                        word = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
                     } catch (StringIndexOutOfBoundsException e) {
                         Log.d("pos", "did not find adj");
                     }
 
-                    Log.d("run", "!" + key + "!");
-                    if (key.equals("") || posAdjective.contains(key))
+                    Log.d("run", "!" + word + "!");
+                    if (word.equals("") || posAdjective.contains(word))
                         count++;
                 }
             }
@@ -244,7 +247,7 @@ public final class Dictionary
                 //Log.d("pos", "match " + positiveDict.get(i));
                 duration = timeDict.get(key);
             }
-        }*/
+        }
 
         return duration;
     }
