@@ -182,8 +182,10 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 //response = "Debug: user input contained " + count + " positive indicators.";
                 response = "";
 
+                // runs at startup
                 if (state == 0)
                 {
+                    // user indicates they have a problem
                     if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                     {
                         state++;
@@ -195,10 +197,13 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         response = "Ok then, you are fine today.";
                     }
                 }
+                // runs when we know there is an issue
                 else if (state == 1)
                 {
+                    // user indicates they have whatever condition was asked
                     if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst())) {
                         state++;
+                        // switches on condition index to set cond to an instance of a condition
                         switch (condition) {
                             case 1:
                                 cond = new SeparationAnxiety();
@@ -215,16 +220,20 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                             condition++;
                             response = condQuestions.get(condition - 1);
                         } catch (IndexOutOfBoundsException e) {
+                            // runs out of conditions
                             response = "I'm not sure I know of anything else to check.";
                         }
                     }
                 }
+                // runs when condition is found
                 else if (state == 2)
                 {
                     try {
                         Log.d("state", "2");
+                        // send answer to condition, get next question
                         cond.sendAnswer(inputLog.getFirst(), questionNum++);
-                        /*if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
+                        response = cond.getQuestion(questionNum);
+                        /* (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                         {
                             response = "You answered in agreement. " + cond.getQuestion(questionNum++);
                         }

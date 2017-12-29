@@ -1,6 +1,7 @@
 package rentedbanana.stressrepelant;
 
 /**
+ * Base for every mental condition we check for
  * Created by Austin on 12/22/2017.
  */
 
