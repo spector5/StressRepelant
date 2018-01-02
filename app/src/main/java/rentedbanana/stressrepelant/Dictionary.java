@@ -18,11 +18,11 @@ public final class Dictionary
 {
     // all phrases of agreement
     private static final ArrayList<String> positiveDict = new ArrayList<>(Arrays.asList("yes", "yeah",
-            "it does", "i believe so", "that is what i think", "most of the time", "affirmative", "every time",
+            "it does", "i believe so", "that is [pos] what i think", "most of the time", "affirmative", "every time",
             "usually", "all of the time", "all the time", "agree", "what i said", "i just said", "agreed",
             "i [pos] think so", "whenever i", "everytime", "always", "do not disagree",
             "i think that is what is happening", "i am [pos] sure that is happening",
-            "i am [pos] sure that is what is happening"));
+            "i am [pos] sure that is what is happening", "that is [pos] true", "[pos]"));
 
     // any adjective that would be used in a positive response (replaces [pos] in above list)
     private static final ArrayList<String> posAdjective = new ArrayList<>(Arrays.asList("definitely",
@@ -31,7 +31,16 @@ public final class Dictionary
             "undoubtedly", "admittedly", "should", "would", "distinctly"));
 
     // all phrases of disagreement
-    private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no"));
+    private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no", "nah",
+            "it does not", "do not believe so", "[neg] what i think", "[neg] most of the time", "negative",
+            "never", "[neg] usually", "none of the time", "disagree", "disagreed", "[neg] what i [wrd] said",
+            "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]"));
+
+    // any adjective that would be used in a negative response (replaces [neg] in above list)
+    private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not", "not at all",
+            "definitely", "absolutely", "surely", "truly", "decidedly", "decisively", "certainly", "genuinely",
+            "honestly", "legitimately", "literally", "undoubtedly", "admittedly", "should not", "would not",
+            "does not", "distinctly"));
 
     // all phrases that indicate time that has passed and their equivelent number of days
     private static final HashMap<String, Integer> timeDict =  new HashMap<>(Collections.unmodifiableMap(
@@ -360,15 +369,41 @@ public final class Dictionary
     // TODO have not updated to version 2 dictionary yet
     public static int countNegative(String text)
     {
+        // format string
         String string = cleanString(text);
-        Log.d("neg clean", string);
+        //Log.d("neg clean", string);
         int count = 0;
 
         // dictionary could become very large, brainstorm preprocessing that can reduce number of loops
         for (int i = 0; i < negativeDict.size(); i++)
         {
-            if (string.contains(negativeDict.get(i)))
+            // if phrase includes an adjective
+            if (negativeDict.get(i).contains("[")) {
+
+                // index before [ and index of first letter following ]
+                String first = negativeDict.get(i).substring(0, negativeDict.get(i).indexOf("[") - 1);
+                String second = negativeDict.get(i).substring(negativeDict.get(i).indexOf("[") + 6, negativeDict.get(i).length());
+
+                if (string.contains(first) && string.contains(second))
+                {
+                    String key = "";
+                    try{
+                        // gets adjective from string
+                        key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        Log.d("pos", "did not find adj");
+                    }
+
+                    Log.d("run", "!" + key + "!");
+                    // if adjective still indicates negative response
+                    if (key.equals("") || negAdjective.contains(key))
+                        count++;
+                }
+            }
+            else if (string.contains(negativeDict.get(i))) {    // found phrase with no adjective
+                //Log.d("pos", "match " + positiveDict.get(i));
                 count++;
+            }
         }
 
         Log.d("neg", String.valueOf(count));
