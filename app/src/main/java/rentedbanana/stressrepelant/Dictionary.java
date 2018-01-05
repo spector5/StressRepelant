@@ -37,10 +37,8 @@ public final class Dictionary
             "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]"));
 
     // any adjective that would be used in a negative response (replaces [neg] in above list)
-    private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not", "not at all",
-            "definitely", "absolutely", "surely", "truly", "decidedly", "decisively", "certainly", "genuinely",
-            "honestly", "legitimately", "literally", "undoubtedly", "admittedly", "should not", "would not",
-            "does not", "distinctly"));
+    private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not"));
+    // , "not at all", "should not", "would not", "does not"
 
     // all phrases that indicate time that has passed and their equivelent number of days
     private static final HashMap<String, Integer> timeDict =  new HashMap<>(Collections.unmodifiableMap(
@@ -331,24 +329,41 @@ public final class Dictionary
             // if phrase includes an adjective
             if (positiveDict.get(i).contains("[")) {
 
-                // index before [ and index of first letter following ]
-                String first = positiveDict.get(i).substring(0, positiveDict.get(i).indexOf("[") - 1);
-                String second = positiveDict.get(i).substring(positiveDict.get(i).indexOf("[") + 6, positiveDict.get(i).length());
-
-                if (string.contains(first) && string.contains(second))
+                if (positiveDict.get(i).equals("[pos]"))
                 {
-                    String key = "";
-                    try{
-                        // gets adjective from string
-                        key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
-                    } catch (StringIndexOutOfBoundsException e) {
-                        Log.d("pos", "did not find adj");
-                    }
+                       for (String wrd : posAdjective)
+                       {
+                           if (text.contains(wrd))
+                           {
+                               count++;
+                               break;
+                           }
+                       }
+                }
+                else {
+                    // index before [ and index of first letter following ]
+                    String first;
+                    if (positiveDict.get(i).charAt(0) == '[')
+                        first = "";
+                    else
+                        first = positiveDict.get(i).substring(0, positiveDict.get(i).indexOf("[") - 1);
 
-                    Log.d("run", "!" + key + "!");
-                    // if adjective still indicates positive response
-                    if (key.equals("") || posAdjective.contains(key))
-                        count++;
+                    String second = positiveDict.get(i).substring(positiveDict.get(i).indexOf("[") + 6, positiveDict.get(i).length());
+
+                    if (string.contains(first) && string.contains(second)) {
+                        String key = "";
+                        try {
+                            // gets adjective from string
+                            key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                        } catch (StringIndexOutOfBoundsException e) {
+                            Log.d("pos", "did not find adj");
+                        }
+
+                        Log.d("run", "!" + key + "!");
+                        // if adjective still indicates positive response
+                        if (key.equals("") || posAdjective.contains(key))
+                            count++;
+                    }
                 }
             }
             else if (string.contains(positiveDict.get(i))) {    // found phrase with no adjective
@@ -380,24 +395,38 @@ public final class Dictionary
             // if phrase includes an adjective
             if (negativeDict.get(i).contains("[")) {
 
-                // index before [ and index of first letter following ]
-                String first = negativeDict.get(i).substring(0, negativeDict.get(i).indexOf("[") - 1);
-                String second = negativeDict.get(i).substring(negativeDict.get(i).indexOf("[") + 6, negativeDict.get(i).length());
-
-                if (string.contains(first) && string.contains(second))
-                {
-                    String key = "";
-                    try{
-                        // gets adjective from string
-                        key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
-                    } catch (StringIndexOutOfBoundsException e) {
-                        Log.d("pos", "did not find adj");
+                if (negativeDict.get(i).equals("[neg]")) {
+                    for (String wrd : negAdjective) {
+                        if (text.contains(wrd)) {
+                            count++;
+                            break;
+                        }
                     }
+                } else {
+                    Log.d("possum", negativeDict.get(i));
+                    // index before [ and index of first letter following ]
+                    String first;
+                    if (negativeDict.get(i).charAt(0) == '[')
+                        first = "";
+                    else
+                        first = negativeDict.get(i).substring(0, negativeDict.get(i).indexOf("[") - 1);
 
-                    Log.d("run", "!" + key + "!");
-                    // if adjective still indicates negative response
-                    if (key.equals("") || negAdjective.contains(key))
-                        count++;
+                    String second = negativeDict.get(i).substring(negativeDict.get(i).indexOf("[") + 6, negativeDict.get(i).length());
+
+                    if (string.contains(first) && string.contains(second)) {
+                        String key = "";
+                        try {
+                            // gets adjective from string
+                            key = string.substring(string.indexOf(first) + first.length() + 1, string.indexOf(second) - 1);
+                        } catch (StringIndexOutOfBoundsException e) {
+                            Log.d("pos", "did not find adj");
+                        }
+
+                        Log.d("run", "!" + key + "!");
+                        // if adjective still indicates negative response
+                        if (key.equals("") || negAdjective.contains(key))
+                            count++;
+                    }
                 }
             }
             else if (string.contains(negativeDict.get(i))) {    // found phrase with no adjective
