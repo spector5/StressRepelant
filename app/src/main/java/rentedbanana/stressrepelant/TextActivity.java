@@ -34,11 +34,12 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private boolean submitted = true;
     private String response;
     private ArrayDeque<String> inputLog;
-    private int state;  // 0 = initial, 1 = finding what ccondition to check for, 2 = checking condition
+    private int state;  // 0 = initial, 1 = finding what condition to check for, 2 = checking condition
     private int condition;  // 1 = seperation anxiety, 2 = selective mutism, 3 = specific phobia,
     // 4 = social anxiety, 5 = panic disorder
     private int questionNum;
-    private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter()));
+    private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter(),
+            PotentialSelectiveMutism.getStarter()));
     private Condition cond;
 
     @Override
@@ -207,6 +208,10 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         switch (condition) {
                             case 1:
                                 cond = new SeparationAnxiety();
+                                response = cond.getQuestion(questionNum);
+                                break;
+                            case 2:
+                                cond = new PotentialSelectiveMutism();
                                 response = cond.getQuestion(questionNum);
                                 break;
                             default:
