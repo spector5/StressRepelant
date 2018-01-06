@@ -39,7 +39,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     // 4 = social anxiety, 5 = panic disorder
     private int questionNum;
     private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter(),
-            PotentialSelectiveMutism.getStarter(), SpecificPhobia.getStarter()));
+            PotentialSelectiveMutism.getStarter(), SpecificPhobia.getStarter(), SocialAnxiety.getStarter()));
     private Condition cond;
 
     @Override
@@ -216,6 +216,10 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                                 break;
                             case 3:
                                 cond = new SpecificPhobia();
+                                response = cond.getQuestion(questionNum);
+                                break;
+                            case 4:
+                                cond = new SocialAnxiety();
                                 response = cond.getQuestion(questionNum);
                                 break;
                             default:
