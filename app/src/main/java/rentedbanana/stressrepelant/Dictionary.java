@@ -403,7 +403,7 @@ public final class Dictionary
                         }
                     }
                 } else {
-                    Log.d("possum", negativeDict.get(i));
+                    //Log.d("possum", negativeDict.get(i));
                     // index before [ and index of first letter following ]
                     String first;
                     if (negativeDict.get(i).charAt(0) == '[')

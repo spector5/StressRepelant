@@ -1,5 +1,7 @@
 package rentedbanana.stressrepelant;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,27 +9,30 @@ import java.util.Arrays;
  * Created by Austin on 1/5/2018.
  */
 
-public class PotentialSelectiveMutism implements Condition
+public class SpecificPhobia implements Condition
 {
-    //private int duration;
+    private boolean shouldElaborate;
+    private String fear;
     private int criteria;   // how many criteria are met
     //private int subcriteria;    // how many of the subcriteria are met (need 3 to satisfy requirement)
 
-    private static final String starter = "Do you have problems initiating conversation in specific situations or to specific people?";
+    private static final String starter = "Is there something specific you are scared about?";
 
-    private final ArrayList<String> questions = new ArrayList<>(Arrays.asList("Have the duration of the disturbance lasted at least 1 month?",
-            "Do the disturbance interfere with educational or occupational achievement or with social communication?",
-            "Is there consistant failure to speak in specific social situations in which there is an expectation for speaking despite speaking in other situations?",
-            "Is there a failure to speak not attributable to a lack of knowledge of, or comfort with, the spoken language required in the social situation?",
-            "Are the disturbances not better explained by a different cause?"));
+    private final ArrayList<String> questions = new ArrayList<>(Arrays.asList("Marked fear or anxiety about a specific object or situation?",
+            "Specify if you can.", "Does the phobic object or situation almost always provokes immediate fear or anxiety?",
+            "Do you avoid the phobic object or situation?",
+            "Is the fear or anxiety out of proportion to the actual danger posed by the specific object or situation and to the sociocultural context?",
+            "Does the fear, anxiety, or avoidance is persistent, typically last for 6 months or more?",
+            "Does the fear, anxiety, or avoidance causes clinically significant distress or impairment in social, occupational, or other important areas of functioning?"));
 
     /**
      * Constructor, makes everything zero
      */
-    public PotentialSelectiveMutism()
+    public SpecificPhobia()
     {
-        //this.duration = 0;
+        this.shouldElaborate = false;
         this.criteria = 0;
+        this.fear = "";
         //this.subcriteria = 0;
     }
 
@@ -57,8 +62,8 @@ public class PotentialSelectiveMutism implements Condition
     public String makeResponse()
     {
         // TODO havent filled this out yet, just giving a basic response
-        if (criteria >= 5)
-            return "I believe you have Selective Mutism.";
+        if (criteria >= 7)
+            return "I believe you have a Specific Phobia of " + fear + ".";
         else
             return "You seem to be fine.";
     }
@@ -74,41 +79,46 @@ public class PotentialSelectiveMutism implements Condition
         int countPos;
         int countNeg;
 
+        //if (num > 0 && shouldElaborate)
+        //    num++;
+
         // one case of each question, not including starter
         switch(num)
         {
-            // Have the duration of the disturbance lasted at least 1 month?
+            // Marked fear or anxiety about a specific object or situation?
             case 0:
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 if (countPos > countNeg)
                 {
+                    Log.d("phobia", "checked1");
                     criteria++;
+                    shouldElaborate = true;
                     return true;
                 }
                 else if (countNeg == 0 && countPos == 0)
                     return false;
                 else
                     return true;
-            // Do the disturbance interfere with educational or occupational achievement or with social communication?
+            // Specify if you can.
+            // TODO this question may need to be switched, possibly throw an exception just to make something quick
             case 1:
-                countPos = Dictionary.countPositive(ans);
+                fear = ans;
                 countNeg = Dictionary.countNegative(ans);
-                if (countPos > countNeg)
-                {
+                Log.d("phob", String.valueOf(countNeg));
+                if (countNeg == 0) {
+                    Log.d("phobia", "checked2");
                     criteria++;
-                    return true;
                 }
-                else if (countNeg == 0 && countPos == 0)
-                    return false;
-                else
-                    return true;
-            // Is there consistant failure to speak in specific social situations in which there is an expectation for speaking despite speaking in other situations?
+                Log.d("phob", "done");
+                return true;
+            // Does the phobic object or situation almost always provokes immediate fear or anxiety?
             case 2:
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 if (countPos > countNeg)
                 {
+                    Log.d("phobia", "checked3");
                     criteria++;
                     return true;
                 }
@@ -116,12 +126,13 @@ public class PotentialSelectiveMutism implements Condition
                     return false;
                 else
                     return true;
-            // Is there a failure to speak not attributable to a lack of knowledge of, or comfort with, the spoken language required in the social situation?
+            // Do you avoid the phobic object or situation?
             case 3:
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 if (countPos > countNeg)
                 {
+                    Log.d("phobia", "checked4");
                     criteria++;
                     return true;
                 }
@@ -129,12 +140,41 @@ public class PotentialSelectiveMutism implements Condition
                     return false;
                 else
                     return true;
-            // Are the disturbances not better explained by a different cause?
+            // Is the fear or anxiety out of proportion to the actual danger posed by the specific object or situation and to the sociocultural context?
             case 4:
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 if (countPos > countNeg)
                 {
+                    Log.d("phobia", "checked5");
+                    criteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            //Does the fear, anxiety, or avoidance is persistent, typically last for 6 months or more?
+            case 5:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    Log.d("phobia", "checked6");
+                    criteria++;
+                    return true;
+                }
+                else if (countNeg == 0 && countPos == 0)
+                    return false;
+                else
+                    return true;
+            // Does the fear, anxiety, or avoidance causes clinically significant distress or impairment in social, occupational, or other important areas of functioning?
+            case 6:
+                countPos = Dictionary.countPositive(ans);
+                countNeg = Dictionary.countNegative(ans);
+                if (countPos > countNeg)
+                {
+                    Log.d("phobia", "checked7");
                     criteria++;
                     return true;
                 }
