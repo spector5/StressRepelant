@@ -28,7 +28,7 @@ public final class Dictionary
     private static final ArrayList<String> posAdjective = new ArrayList<>(Arrays.asList("definitely",
             "really", "pretty", "absolutely", "positively", "surely", "truly", "unquestionably", "easily",
             "decidedly", "decisively", "certainly", "genuinely", "honestly", "legitimately", "literally",
-            "undoubtedly", "admittedly", "should", "would", "distinctly"));
+            "undoubtedly", "admittedly", "should", "would", "distinctly", "probably"));
 
     // all phrases of disagreement
     private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no", "nah",
