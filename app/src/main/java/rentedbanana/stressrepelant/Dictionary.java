@@ -18,17 +18,20 @@ public final class Dictionary
 {
     // all phrases of agreement
     private static final ArrayList<String> positiveDict = new ArrayList<>(Arrays.asList("yes", "yeah",
-            "it does", "i believe so", "that is [pos] what i think", "most of the time", "affirmative", "every time",
-            "usually", "all of the time", "all the time", "agree", "what i said", "i just said", "agreed",
-            "i [pos] think so", "whenever i", "everytime", "always", "do not disagree",
-            "i think that is what is happening", "i am [pos] sure that is happening",
-            "i am [pos] sure that is what is happening", "that is [pos] true", "[pos]"));
+            "it [pos] does", "i [pos] believe so", "i [pos] believe it is", "i [pos] believe that", "that is [pos] what i think",
+            "most of the time", "affirmative", "every time", "usually", "all of the time", "all the time",
+            "agree", "what i said", "i [pos] just said", "agreed", "i [pos] think so", "whenever i", "everytime",
+            "always", "do not disagree", "i [pos] think that is what is happening", "i am [pos] sure that is happening",
+            "i am [pos] sure that is what is happening", "that is [pos] true", "[pos]", "it [pos] is", "they [pos] do",
+            "i [pos] do", "they [pos] are", "i [pos] am", "there [pos] are", "that is [pos] true", "that is [pos] correct",
+            "is [pos] right", "are [pos] right", "that is [pos] the case"));
 
     // any adjective that would be used in a positive response (replaces [pos] in above list)
     private static final ArrayList<String> posAdjective = new ArrayList<>(Arrays.asList("definitely",
             "really", "pretty", "absolutely", "positively", "surely", "truly", "unquestionably", "easily",
             "decidedly", "decisively", "certainly", "genuinely", "honestly", "legitimately", "literally",
-            "undoubtedly", "admittedly", "should", "would", "distinctly", "probably"));
+            "undoubtedly", "admittedly", "should", "would", "distinctly", "probably", "often", "sometimes",
+            "some of the time", "mostly", "absolutely"));
 
     // all phrases of disagreement
     private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no", "nah",
@@ -37,8 +40,8 @@ public final class Dictionary
             "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]"));
 
     // any adjective that would be used in a negative response (replaces [neg] in above list)
-    private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not"));
-    // , "not at all", "should not", "would not", "does not"
+    private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not", "rarely",
+            "never"));
 
     // all phrases that indicate time that has passed and their equivelent number of days
     private static final HashMap<String, Integer> timeDict =  new HashMap<>(Collections.unmodifiableMap(
