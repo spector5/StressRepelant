@@ -37,7 +37,10 @@ public final class Dictionary
     private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no", "nah",
             "it does not", "do not believe so", "[neg] what i think", "[neg] most of the time", "negative",
             "never", "[neg] usually", "none of the time", "disagree", "disagreed", "[neg] what i [wrd] said",
-            "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]"));
+            "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]", "false",
+            "incorrect", "not at all"));
+
+    // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip
 
     // any adjective that would be used in a negative response (replaces [neg] in above list)
     private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not", "rarely",
