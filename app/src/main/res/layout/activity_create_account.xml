@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_create_account"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="rentedbanana.stressrepelant.createAccountActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/ask_name"
+        android:ems="10"
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp"
+        android:id="@id/nameField"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text=""
+        android:hint="@string/ask_password"
+        android:ems="10"
+        android:layout_marginTop="13dp"
+        android:id="@+id/createPasswordField"
+        tools:ignore="TextFields"
+        android:layout_below="@+id/createUsernameField"
+        android:layout_alignLeft="@+id/createUsernameField"
+        android:layout_alignStart="@+id/createUsernameField" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/emailField"
+        android:hint="@string/ask_email"
+        android:layout_below="@+id/nameField"
+        android:layout_alignLeft="@+id/nameField"
+        android:layout_alignStart="@+id/nameField"
+        android:layout_marginTop="23dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/ask_username"
+        android:ems="10"
+        android:layout_marginTop="40dp"
+        android:id="@+id/createUsernameField"
+        android:layout_below="@+id/emailField"
+        android:layout_alignLeft="@+id/emailField"
+        android:layout_alignStart="@+id/emailField" />
+
+
+    <Button
+        android:text="@string/create_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:id="@+id/createAccountButton"
+        android:layout_below="@id/createPasswordField"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/createPasswordField"
+        android:layout_alignStart="@+id/createPasswordField"
+        android:layout_marginBottom="30dp"
+        android:onClick="createAccount"/>
+</RelativeLayout>
+
