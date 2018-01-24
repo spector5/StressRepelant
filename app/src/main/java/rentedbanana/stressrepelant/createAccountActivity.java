@@ -71,7 +71,7 @@ public class createAccountActivity extends AppCompatActivity {
         sharedPref.edit().putString(getString(R.string.ask_username), user).apply();
         sharedPref.edit().putString(getString(R.string.ask_password), pass).apply();
 
-        Intent i = new Intent(this, TextActivity.class);
+        Intent i = new Intent(this, Prompt.class);
         startActivity(i);
     }
 }

@@ -12,4 +12,11 @@
     <item name="nameField" type="id">Name Field</item>
 
     <item name="nextPromptButton" type="id">Next Prompt Button</item>
+
+    <item name="contactName" type="id">contactName</item>
+    <item name="contactNumber" type="id">contactNumber</item>
+    <item name="Age" type="id">Age</item>
+    <item name="Gender" type="id">Gender</item>
+    <item name="Ethinicity" type="id">Ethinicity</item>
+    <item name="FinishButton" type="id">Finish Button</item>
 </resources>
