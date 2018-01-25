@@ -14,19 +14,21 @@
         android:text="@string/login_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/button"
+        android:onClick="goToHomePage"
+        android:layout_below="@+id/passwordLoginField"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="95dp"
-        android:id="@+id/button" />
+        android:layout_marginTop="46dp" />
 
     <Button
         android:text="@string/login_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button"
-        android:layout_marginBottom="16dp"
-        android:id="@+id/button2" />
+        android:id="@id/createAccountButton"
+        android:onClick="goToCreateAccount"
+        android:layout_alignTop="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="69dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -37,7 +39,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="142dp"
-        android:id="@+id/editText" />
+        android:id="@id/usernameLoginField" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -45,7 +47,15 @@
         android:inputType="textPassword"
         android:hint="@string/login_pass"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@id/passwordLoginField"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_alignStart="@id/usernameLoginField" />
+
+    <CheckBox
+        android:id="@id/stayLoggedInCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CheckBox"
+        android:layout_below="@+id/createAccountButton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
