@@ -181,7 +181,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 // TODO this is where computer response goes
                 //int count = Dictionary.countPositive(inputLog.peek());
                 //response = "Debug: user input contained " + count + " positive indicators.";
-                response = "";
+                //response = "";    TODO i dont remember why this was added, but I took it out to make the new version of sendAnswer work
 
                 // runs at startup
                 if (state == 0)
@@ -210,7 +210,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                                 cond = new SeparationAnxiety();
                                 response = cond.getQuestion(questionNum);
                                 break;
-                            case 2:
+                            /*case 2:
                                 cond = new PotentialSelectiveMutism();
                                 response = cond.getQuestion(questionNum);
                                 break;
@@ -221,7 +221,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                             case 4:
                                 cond = new SocialAnxiety();
                                 response = cond.getQuestion(questionNum);
-                                break;
+                                break;*/
                             default:
                                 response = "Something went wrong, I don't think I can help you. Sorry.";
                                 break;
@@ -232,7 +232,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         try {
                             condition++;
                             response = condQuestions.get(condition - 1);
-                        } catch (IndexOutOfBoundsException e) {
+                        } catch (NullPointerException e) {
                             // runs out of conditions
                             response = "I'm not sure I know of anything else to check.";
                         }
@@ -244,7 +244,8 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                     try {
                         Log.d("state", "2");
                         // send answer to condition, get next question
-                        cond.sendAnswer(inputLog.getFirst(), questionNum++);
+
+                        cond.sendAnswer(response, inputLog.getFirst(), questionNum++);
                         response = cond.getQuestion(questionNum);
                         /* (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                         {
@@ -252,7 +253,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         }
                         else
                             response = "You answered in disagreement. " + cond.getQuestion(questionNum++);*/
-                    } catch (IndexOutOfBoundsException e) {
+                    } catch (NullPointerException e) {
                         // end questioning and give advice
                         response = cond.makeResponse();
                     }
