@@ -1,5 +1,6 @@
 package rentedbanana.stressrepelant;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Resources;
@@ -41,6 +42,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter(),
             PotentialSelectiveMutism.getStarter(), SpecificPhobia.getStarter(), SocialAnxiety.getStarter()));
     private Condition cond;
+    private Activity act;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
         state = 0;
         condition = 0;
         questionNum = 0;
+        act = this;
 
         FragmentManager fm = getFragmentManager();
         mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
@@ -187,6 +190,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 if (state == 0)
                 {
                     // user indicates they have a problem
+                    Dictionary.filterText(inputLog.getFirst(), act);
                     if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                     {
                         state++;
@@ -202,6 +206,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 else if (state == 1)
                 {
                     // user indicates they have whatever condition was asked
+                    Dictionary.filterText(inputLog.getFirst(), act);
                     if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst())) {
                         state++;
                         // switches on condition index to set cond to an instance of a condition
@@ -245,7 +250,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         Log.d("state", "2");
                         // send answer to condition, get next question
 
-                        cond.sendAnswer(response, inputLog.getFirst(), questionNum++);
+                        cond.sendAnswer(response, inputLog.getFirst(), questionNum++, act);
                         response = cond.getQuestion(questionNum);
                         /* (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                         {

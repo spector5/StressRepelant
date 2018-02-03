@@ -1,5 +1,7 @@
 package rentedbanana.stressrepelant;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -99,7 +101,7 @@ public class PanicDisorder implements Condition
      * @param num = index of question
      * @return true if the answer makes sense, flase if the app cant figure out what the answer means
      */
-    public boolean sendAnswer(String quest, String ans, int num)
+    public boolean sendAnswer(String quest, String ans, int num, Activity act)
     {
         int countPos;
         int countNeg;
@@ -109,6 +111,7 @@ public class PanicDisorder implements Condition
         {
             // Do you have recurrent unexpected panic attacks?
             case 0:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -132,6 +135,7 @@ public class PanicDisorder implements Condition
                 }
             // Has at least one of the attacks been followed by 1 month (or more) of one or both of the following: a significant maladaptive change in behavior related to the attacks or persistent concern or worry about additional panic attacks?
             case 1:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -155,6 +159,7 @@ public class PanicDisorder implements Condition
                 }
             // Are the disturbances not attributable to the physiological effects of a substance or another medical condition?
             case 2:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -178,6 +183,7 @@ public class PanicDisorder implements Condition
                 }
             // Are the disturbances not better explained by another mental disorder?
             case 3:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 

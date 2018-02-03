@@ -1,11 +1,13 @@
 package rentedbanana.stressrepelant;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -39,6 +41,9 @@ public final class Dictionary
             "never", "[neg] usually", "none of the time", "disagree", "disagreed", "[neg] what i [wrd] said",
             "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]", "false",
             "incorrect", "not at all"));
+
+    private static final ArrayList<String> filterDict = new ArrayList<>(Arrays.asList("kill", "suicide", "dead",
+            "death", "murder", "die", "suicidal"));
 
     // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip
 
@@ -315,6 +320,27 @@ public final class Dictionary
 
         Log.d("in days", String.valueOf(duration));
         return duration;
+    }
+
+    /**
+     * Finds if a trigger word is in the text, sends notifications
+     * @param text = string to be searched
+     */
+    public static void filterText(String text, Activity act)
+    {
+        // format string
+        String string = cleanString(text);
+
+        for (int i = 0; i < filterDict.size(); i++)
+        {
+            //if (string.contains(filterDict.get(i)))
+            //{
+                // send notifications
+                new SendMailTask(act).execute("stressrepellenttest@gmail.com", "7knJCUgiao6X9eCK4q",
+                        new ArrayList<String>(Arrays.asList("turfandturf17@gmail.com")),
+                        "Stress Repellent Test", "This is a test of stress repellent.");
+            //}
+        }
     }
 
     /**

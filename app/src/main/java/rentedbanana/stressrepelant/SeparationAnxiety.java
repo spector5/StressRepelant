@@ -1,5 +1,6 @@
 package rentedbanana.stressrepelant;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -155,7 +156,7 @@ public class SeparationAnxiety implements Condition
      * @param num = index of question
      * @return true if the answer makes sense, flase if the app cant figure out what the answer means
      */
-    public boolean sendAnswer(String quest, String ans, int num)
+    public boolean sendAnswer(String quest, String ans, int num, Activity act)
     {
         int countPos;
         int countNeg;
@@ -165,6 +166,7 @@ public class SeparationAnxiety implements Condition
         {
             // How long has the symptoms lasted?
             case 0:
+                Dictionary.filterText(ans, act);
                 if ((duration = Dictionary.countDays(ans)) > 0) {
                     // TODO must communicate with server to get age, for now assuming adult user
                     if (duration < 180)
@@ -174,6 +176,7 @@ public class SeparationAnxiety implements Condition
                 break;
             // Do the disturbances causes significant distress in social, academic, occupational, or other important areas of functioning?
             case 1:
+                Dictionary.filterText(ans, act);
                 Log.d("case1hash", questions.get(num).toString());
                 Hashtable<String, Boolean> hold = questions.get(num);
                 Log.d("case1quest", quest);
@@ -203,6 +206,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Are there recurrent excessive distress when anticipating separation from home or from major attachment figures?
             case 2:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -226,6 +230,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent worry about losing major attachment figures or about possible harm to them, such as illness, injury, disaster, or death?
             case 3:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -249,6 +254,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent and excessive worry about experiencing an untoward event that causes separation from a major attachment figure?
             case 4:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -272,6 +278,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent reluctance or refusal to go out, away from home, to school, to work, or elsewhere because of fear of separation?
             case 5:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -295,6 +302,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent fear of or reluctance about being alone or without major attachment figures at home or in other settings?
             case 6:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -318,6 +326,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent reluctance or refusal to sleep away from home or to got to sleep without being near a major attachment figure?
             case 7:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -341,6 +350,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Are there repeated nightmares involving the theme of separation?
             case 8:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 
@@ -364,6 +374,7 @@ public class SeparationAnxiety implements Condition
                 }
                 // Are there repeated complaints of physical symptoms when separation from major attachment figures occurs or is anticipated?
             case 9:
+                Dictionary.filterText(ans, act);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
 

@@ -1,5 +1,6 @@
 package rentedbanana.stressrepelant;
 
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -10,6 +11,6 @@ import android.content.Context;
 public interface Condition
 {
     String getQuestion(int num);
-    boolean sendAnswer(String quest, String ans, int num);
+    boolean sendAnswer(String quest, String ans, int num, Activity act);
     String makeResponse();
 }
