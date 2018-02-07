@@ -29,12 +29,12 @@ public class PanicDisorder implements Condition
             put("Have you recently had an attack followed by 1 month or more of one or both of these: a significant maladaptive change in behavior related to the attacks or persistent concern or worry about additional panic attacks?", true);}});
         put(2, new Hashtable<String, Boolean>(){{
             put("Are the disturbances not attributable to the physiological effects of a substance or another medical condition?", false);
-            put("Are the disturbances caused by the effects of a substance or other medical condition?", true);
+            put("Are the disturbances caused by the effects of a substance or other medical condition?", false);
             put("Do you have another medical condition or use a substance that may be causing these disturbances?", true);}});
         put(3, new Hashtable<String, Boolean>(){{
-            put("Are the disturbances not better explained by another mental disorder?", true);
-            put("Do you have a different mental disorder that may be causing these disturbances?", true);
-            put("Is there a different mental disorder that you have been diagnosed with that many be causing these disturbances?", true);}});
+            put("Are the disturbances not better explained by another mental disorder?", false);
+            put("Do you have a different mental disorder that may be causing these disturbances?", false);
+            put("Is there a different mental disorder that you have been diagnosed with that many be causing these disturbances?", false);}});
     }};
 
     /*private final ArrayList<String> questions = new ArrayList<>(Arrays.asList("Do you have recurrent unexpected panic attacks?",
@@ -207,5 +207,10 @@ public class PanicDisorder implements Condition
                 }
         }
         return false;
+    }
+
+    @Override
+    public int getQuestionLength() {
+        return questions.size();
     }
 }

@@ -118,6 +118,11 @@ public class Agoraphobia implements Condition
             return "You seem to be fine.";
     }
 
+    @Override
+    public int getQuestionLength() {
+        return questions.size();
+    }
+
     /**
      * Gets answer from user and decides if criteria is met
      * @param ans = user answer

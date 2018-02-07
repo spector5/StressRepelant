@@ -382,4 +382,9 @@ public class SocialAnxiety implements Condition
         }
         return false;
     }
+
+    @Override
+    public int getQuestionLength() {
+        return questions.size();
+    }
 }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class TextActivity extends AppCompatActivity implements TaskFragment.TaskCallbacks {
 
@@ -37,18 +38,24 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private ArrayDeque<String> inputLog;
     private int state;  // 0 = initial, 1 = finding what condition to check for, 2 = checking condition
     private int condition;  // 1 = seperation anxiety, 2 = selective mutism, 3 = specific phobia,
-    // 4 = social anxiety, 5 = panic disorder
+    // 4 = social anxiety, 5 = panic disorder, 6 = agoraphobia
     private int questionNum;
     private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter(),
-            PotentialSelectiveMutism.getStarter(), SpecificPhobia.getStarter(), SocialAnxiety.getStarter()));
+            PotentialSelectiveMutism.getStarter(), SpecificPhobia.getStarter(), SocialAnxiety.getStarter(),
+            PanicDisorder.getStarter(), Agoraphobia.getStarter()));
     private Condition cond;
     private Activity act;
+    private int questionBound;
+    private ArrayList<Integer> questionsNums;
+    private Random rand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
 
+        questionsNums = new ArrayList<>();
+        rand = new Random();
         state = 0;
         condition = 0;
         questionNum = 0;
@@ -213,20 +220,58 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         switch (condition) {
                             case 1:
                                 cond = new SeparationAnxiety();
+                                questionBound = cond.getQuestionLength();
+                                for (int i = 0; i < questionBound; i++)
+                                    questionsNums.add(i);
+
+                                questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
                                 response = cond.getQuestion(questionNum);
                                 break;
-                            /*case 2:
+                            case 2:
                                 cond = new PotentialSelectiveMutism();
+                                questionBound = cond.getQuestionLength();
+                                for (int i = 0; i < questionBound; i++)
+                                    questionsNums.add(i);
+
+                                questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
                                 response = cond.getQuestion(questionNum);
                                 break;
                             case 3:
                                 cond = new SpecificPhobia();
+                                questionBound = cond.getQuestionLength();
+                                for (int i = 0; i < questionBound; i++)
+                                    questionsNums.add(i);
+
+                                questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
                                 response = cond.getQuestion(questionNum);
                                 break;
                             case 4:
                                 cond = new SocialAnxiety();
+                                questionBound = cond.getQuestionLength();
+                                for (int i = 0; i < questionBound; i++)
+                                    questionsNums.add(i);
+
+                                questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
                                 response = cond.getQuestion(questionNum);
-                                break;*/
+                                break;
+                            case 5:
+                                cond = new PanicDisorder();
+                                questionBound = cond.getQuestionLength();
+                                for (int i = 0; i < questionBound; i++)
+                                    questionsNums.add(i);
+
+                                questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
+                                response = cond.getQuestion(questionNum);
+                                break;
+                            case 6:
+                                cond = new Agoraphobia();
+                                questionBound = cond.getQuestionLength();
+                                for (int i = 0; i < questionBound; i++)
+                                    questionsNums.add(i);
+
+                                questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
+                                response = cond.getQuestion(questionNum);
+                                break;
                             default:
                                 response = "Something went wrong, I don't think I can help you. Sorry.";
                                 break;
@@ -237,7 +282,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         try {
                             condition++;
                             response = condQuestions.get(condition - 1);
-                        } catch (NullPointerException e) {
+                        } catch (IndexOutOfBoundsException e) {
                             // runs out of conditions
                             response = "I'm not sure I know of anything else to check.";
                         }
@@ -250,7 +295,8 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         Log.d("state", "2");
                         // send answer to condition, get next question
 
-                        cond.sendAnswer(response, inputLog.getFirst(), questionNum++, act);
+                        cond.sendAnswer(response, inputLog.getFirst(), questionNum, act);
+                        questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
                         response = cond.getQuestion(questionNum);
                         /* (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                         {
@@ -258,9 +304,10 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         }
                         else
                             response = "You answered in disagreement. " + cond.getQuestion(questionNum++);*/
-                    } catch (NullPointerException e) {
+                    } catch (IllegalArgumentException e) {
                         // end questioning and give advice
                         response = cond.makeResponse();
+                        Log.d("null point", e.getMessage());
                     }
                 }
 

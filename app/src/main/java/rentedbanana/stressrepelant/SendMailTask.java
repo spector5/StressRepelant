@@ -16,15 +16,14 @@ public class SendMailTask extends AsyncTask {
 
     public SendMailTask(Activity activity) {
         sendMailActivity = activity;
-
     }
 
     protected void onPreExecute() {
-        statusDialog = new ProgressDialog(sendMailActivity);
+        /*statusDialog = new ProgressDialog(sendMailActivity);
         statusDialog.setMessage("Getting ready...");
         statusDialog.setIndeterminate(false);
         statusDialog.setCancelable(false);
-        statusDialog.show();
+        statusDialog.show();*/
     }
 
     @Override
@@ -50,13 +49,12 @@ public class SendMailTask extends AsyncTask {
 
     @Override
     public void onProgressUpdate(Object... values) {
-        statusDialog.setMessage(values[0].toString());
-
+        //statusDialog.setMessage(values[0].toString());
     }
 
     @Override
     public void onPostExecute(Object result) {
-        statusDialog.dismiss();
+        //statusDialog.dismiss();
     }
 
 }

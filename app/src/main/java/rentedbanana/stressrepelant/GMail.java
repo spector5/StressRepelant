@@ -54,7 +54,8 @@ public class GMail {
     public MimeMessage createEmailMessage() throws AddressException,
             MessagingException, UnsupportedEncodingException {
 
-        mailSession = Session.getDefaultInstance(emailProperties, null);
+        mailSession = Session.getInstance(emailProperties, new GMailAuthenticator(fromEmail, fromPassword));
+        //mailSession = Session.getDefaultInstance(emailProperties, null);
         emailMessage = new MimeMessage(mailSession);
 
         emailMessage.setFrom(new InternetAddress(fromEmail, fromEmail));

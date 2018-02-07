@@ -401,6 +401,11 @@ public class SeparationAnxiety implements Condition
         return false;
     }
 
+    @Override
+    public int getQuestionLength() {
+        return questions.size();
+    }
+
     /**
      * Gets answer from user and decides if criteria is met, deprecated
      * @param ans = user answer

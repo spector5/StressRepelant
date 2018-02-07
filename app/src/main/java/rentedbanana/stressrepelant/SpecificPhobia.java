@@ -293,4 +293,9 @@ public class SpecificPhobia implements Condition
 
         return false;
     }
+
+    @Override
+    public int getQuestionLength() {
+        return questions.size();
+    }
 }

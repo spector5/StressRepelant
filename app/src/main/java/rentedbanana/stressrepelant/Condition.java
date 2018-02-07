@@ -13,4 +13,5 @@ public interface Condition
     String getQuestion(int num);
     boolean sendAnswer(String quest, String ans, int num, Activity act);
     String makeResponse();
+    int getQuestionLength();
 }
