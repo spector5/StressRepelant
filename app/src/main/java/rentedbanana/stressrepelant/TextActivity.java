@@ -38,11 +38,11 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private ArrayDeque<String> inputLog;
     private int state;  // 0 = initial, 1 = finding what condition to check for, 2 = checking condition
     private int condition;  // 1 = seperation anxiety, 2 = selective mutism, 3 = specific phobia,
-    // 4 = social anxiety, 5 = panic disorder, 6 = agoraphobia
+    // 4 = social anxiety, 5 = panic disorder, 6 = agoraphobia, 7 = general stress, no flowchart just general information
     private int questionNum;
     private ArrayList<String> condQuestions = new ArrayList<String>(Arrays.asList(SeparationAnxiety.getStarter(),
             PotentialSelectiveMutism.getStarter(), SpecificPhobia.getStarter(), SocialAnxiety.getStarter(),
-            PanicDisorder.getStarter(), Agoraphobia.getStarter()));
+            PanicDisorder.getStarter(), Agoraphobia.getStarter(), Stress.getStarter()));
     private Condition cond;
     private Activity act;
     private int questionBound;
@@ -265,6 +265,15 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                                 break;
                             case 6:
                                 cond = new Agoraphobia();
+                                questionBound = cond.getQuestionLength();
+                                for (int i = 0; i < questionBound; i++)
+                                    questionsNums.add(i);
+
+                                questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
+                                response = cond.getQuestion(questionNum);
+                                break;
+                            case 7:
+                                cond = new Stress();
                                 questionBound = cond.getQuestionLength();
                                 for (int i = 0; i < questionBound; i++)
                                     questionsNums.add(i);
