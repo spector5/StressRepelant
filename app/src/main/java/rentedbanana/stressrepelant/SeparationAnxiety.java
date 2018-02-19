@@ -143,10 +143,32 @@ public class SeparationAnxiety implements Condition
         if (subcriteria >= 3)
             criteria++;
 
-        if (criteria >= 2)
-            return "I believe you have Separation Anxiety.";
+        if (criteria >= 2) {
+            //return "I believe you have Separation Anxiety.";
+            ArrayList<String> firstComp = new ArrayList<>(Arrays.asList("It appears your stress is related to separation from someone.",
+                    "I believe you are stressed because you are separated from someone.",
+                    "It seems to me that you are stressed because you have been separated from someone."));
+            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" You aren't alone in this situation, many people experience anxiety when separated from loved ones.",
+                    " This is a common reaction to separation, many people experience this.",
+                    " You aren't the only person to feel this way, many people feel anxious when separated from others."));
+            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" My most simple advice is that time will help you feel better.",
+                    " While this may feel bad now, you will most likely feel better in the future. Just don't rush yourself.",
+                    " Time will help you feel better, just don't try to rush your recovery."));
+            ArrayList<String> fourthComp = new ArrayList<>(Arrays.asList(" You may feel unmotiviated to do individual activities, but by doing something for yourself you will feel better.",
+                    " You might be afraid to try something for yourself, but I think taking some time to do individual activities will help you.",
+                    " I recommend trying an activity for individuals, even if you are scared or unmotivated to do so"));
+            Random rand = new Random();
+
+            String response = "";
+
+            response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(fourthComp.size())));
+            return response;
+        }
         else
-            return "You seem to be fine.";
+            return "From what I can tell, you appear to be fine. Any stress you currently have can be atrributed to normal, everyday life. This type of stress is short term and will go away if you just give it time.";
     }
 
     /**

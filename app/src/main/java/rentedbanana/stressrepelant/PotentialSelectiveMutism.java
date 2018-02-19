@@ -96,10 +96,32 @@ public class PotentialSelectiveMutism implements Condition
     public String makeResponse()
     {
         // TODO havent filled this out yet, just giving a basic response
-        if (criteria >= 5)
-            return "I believe you have Selective Mutism.";
+        if (criteria >= 5) {
+            //return "I believe you have Selective Mutism.";
+            ArrayList<String> firstComp = new ArrayList<>(Arrays.asList("You seem to have stress based on an inability to talk to others.",
+                    "I believe you are stressed because you have trouble speaking to others.",
+                    "It seems to me that you are stressed because you have a hard time speaking to others."));
+            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" You might be tempted to stay away from social situations, but this will only make things harder.",
+                    " I really think you should not shy away from social situations, even if they may scare you or make you uncomfourtable.",
+                    " Social situations may seem uncomfortable for you, but I think you need to be around others to make you more comfortable."));
+            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" You can start small, just find one person, pet, or even object you feel like you can talk to.",
+                    " Try to find one person, pet, or something that you can talk to, then you can branch out from there once you are more comfortable.",
+                    " I want you to try to find one person or thing you can talk to, just so you can start getting comfortable talking to others."));
+            ArrayList<String> fourthComp = new ArrayList<>(Arrays.asList(" Once you're abit more comfortable you should try to find a club or group of people that share an interest of yours and talk to them.",
+                    " If you start feeling better talking to others you should find a social club that shares an interest of yours so you have people to talk to.",
+                    " Take your time, when you feel more comfortable find a club or social group nearby that you can talk to."));
+            Random rand = new Random();
+
+            String response = "";
+
+            response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(fourthComp.size())));
+            return response;
+        }
         else
-            return "You seem to be fine.";
+            return "From what I can tell, you appear to be fine. Any stress you currently have can be atrributed to normal, everyday life. This type of stress is short term and will go away if you just give it time.";
     }
 
     /**

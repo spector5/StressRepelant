@@ -109,8 +109,31 @@ public class SpecificPhobia implements Condition
     public String makeResponse()
     {
         // TODO havent filled this out yet, just giving a basic response
-        if (criteria >= 7)
-            return "I believe you have a Specific Phobia of " + fear + ".";
+        if (criteria >= 7) {
+            //return "I believe you have a Specific Phobia of " + fear + ".";
+            ArrayList<String> firstComp = new ArrayList<>(Arrays.asList("I definitely believe your stress is related to a phobia.",
+                    "It seems to me that there is a phobia causing your stress.",
+                    "I think you may have a phobia that contributes to your stress."));
+            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" Don't feel like you are alone, this is a very common source of stress.",
+                    " You're certainly not alone here, many people have stress related to a phobia.",
+                    " Phobias are very common, many people have them."));
+            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" If you want to reduce the stress from this you need to desensitize yourself to it, very slowly.",
+                    " I want you to try and slowly desensitize yourself to this.",
+                    " I think it would be best to slowly surround yourself with this."));
+            ArrayList<String> fourthComp = new ArrayList<>(Arrays.asList(" I think you should find a representation of your phobia to look at, perhaps a cartoon or stuffed animal related to it.",
+                    " Try starting by finding a non realistic representation of your phobia, perhaps a cartoon or animation.",
+                    " I would like you to find some sort of pretend representation of your phobia, something you can tolerate but relate to what you are afraid of."));
+            Random rand = new Random();
+
+            String response = "";
+
+            response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(fourthComp.size())));
+            response = response + " Then, once you feel abit more comfortable you can find a slightly more realistic object to get accustomed to.";
+            return response;
+        }
         else
             return "You seem to be fine.";
     }

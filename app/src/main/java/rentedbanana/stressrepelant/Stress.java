@@ -63,7 +63,7 @@ public class Stress implements Condition {
         String response = "I think you will be fine.";
 
         response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
-        response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
+        response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
         return response;
     }
 
