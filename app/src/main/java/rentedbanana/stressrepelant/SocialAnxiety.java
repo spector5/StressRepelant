@@ -119,10 +119,29 @@ public class SocialAnxiety implements Condition
     public String makeResponse()
     {
         // TODO havent filled this out yet, just giving a basic response
-        if (criteria >= 10)
-            return "I believe you have Social Anxiety.";
+        if (criteria >= 10) {
+            //return "I believe you have Social Anxiety.";
+            ArrayList<String> firstComp = new ArrayList<>(Arrays.asList("I think your stress is based on social interaction.",
+                    "It seems social situations contribute to your stress.",
+                    "I think you may be stressed partly because of social interactions."));
+            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" You shouldn't try to rush yourself into a quick fix.",
+                    " You can do things to feel more comfortable around others, but know that this will be a slow process.",
+                    " You can overcome this, but it may take some time."));
+            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" Try to start small by getting one or two people you feel you can trust and be open with them. Then allow them to introduce you to others, slowly.",
+                    " You can talk to a single person in a private setting jsut to get comfortable having conversation in a safe environment, then get abit bigger with a larger social group and more varied social situations.",
+                    " A good place to start would be to find a single person you can be open with, then let them ease you into slightly more open social situations."));
+            Random rand = new Random();
+
+            String response = "";
+
+            response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+
+            return response;
+        }
         else
-            return "You seem to be fine.";
+            return "From what I can tell, you appear to be fine. Any stress you currently have can be atrributed to normal, everyday life. This type of stress is short term and will go away if you just give it time.";
     }
 
     /**

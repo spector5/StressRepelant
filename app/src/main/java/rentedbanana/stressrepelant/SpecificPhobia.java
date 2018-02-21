@@ -135,7 +135,7 @@ public class SpecificPhobia implements Condition
             return response;
         }
         else
-            return "You seem to be fine.";
+            return "From what I can tell, you appear to be fine. Any stress you currently have can be atrributed to normal, everyday life. This type of stress is short term and will go away if you just give it time.";
     }
 
     /**

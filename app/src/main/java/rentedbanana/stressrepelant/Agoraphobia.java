@@ -113,9 +113,29 @@ public class Agoraphobia implements Condition
     {
         // TODO havent filled this out yet, just giving a basic response
         if (criteria >= 9)
-            return "I believe you have Agoraphobia.";
+        {
+            ArrayList<String> firstComp = new ArrayList<>(Arrays.asList("It seems you have anxiety based on being at a perticular location.",
+                    "I believe you may be have anxiety from being outside or at a particular location.",
+                    "It looks to me like you have some issues with being outside."));
+            // TODO start here
+            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" You should be aware of some signs of panic, like elevated heart rate, dizziness, or sweating.",
+                    " Some symptoms you need to look out for are weakness, muscle spasms, and elevated heart rate.",
+                    " You need to watch for sudden chills, shortness of breath, or a fear you are going crazy."));
+            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" If you see these symptoms you should sit down where ever you are, relax your muscles as much as possible, and focus on breathing slowly.",
+                    " If you have an attack, you should sit down and let your muscles relax. Also focus on breathing very slowly.",
+                    " If you begin to panic you should focus on breathing slowly and sit down so your muscles can relax."));
+            Random rand = new Random();
+
+            String response = "";
+
+            response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+
+            return response;
+        }
         else
-            return "You seem to be fine.";
+            return "From what I can tell, you appear to be fine. Any stress you currently have can be atrributed to normal, everyday life. This type of stress is short term and will go away if you just give it time.";
     }
 
     @Override

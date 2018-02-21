@@ -90,9 +90,29 @@ public class PanicDisorder implements Condition
     {
         // TODO havent filled this out yet, just giving a basic response
         if (criteria >= 4)
-            return "I believe you have Panic Disorder.";
+        {
+            ArrayList<String> firstComp = new ArrayList<>(Arrays.asList("It seems you have problems with panic symptoms.",
+                    "I believe you may be dealing with symptoms of unexpected panic.",
+                    "It looks to me like you have some issues with panicking."));
+            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" You should be aware of some signs of panic, like elevated heart rate, dizziness, or sweating.",
+                    " Some symptoms you need to look out for are weakness, muscle spasms, and elevated heart rate.",
+                    " You need to watch for sudden chills, shortness of breath, or a fear you are going crazy."));
+            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" If you see these symptoms you should sit down where ever you are, relax your muscles as much as possible, and focus on breathing slowly.",
+                    " If you have an attack, you should sit down and let your muscles relax. Also focus on breathing very slowly.",
+                    " If you begin to panic you should focus on breathing slowly and sit down so your muscles can relax."));
+            Random rand = new Random();
+
+            String response = "";
+
+            response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+            response = response + " In a panic you need to tell yourself that this is only temporary, it won't last forever and you will get through it.";
+
+            return response;
+        }
         else
-            return "You seem to be fine.";
+            return "From what I can tell, you appear to be fine. Any stress you currently have can be atrributed to normal, everyday life. This type of stress is short term and will go away if you just give it time.";
     }
 
     /**
