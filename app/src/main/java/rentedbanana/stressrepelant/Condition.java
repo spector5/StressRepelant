@@ -1,5 +1,8 @@
 package rentedbanana.stressrepelant;
 
+import android.app.Activity;
+import android.content.Context;
+
 /**
  * Base for every mental condition we check for
  * Created by Austin on 12/22/2017.
@@ -8,6 +11,7 @@ package rentedbanana.stressrepelant;
 public interface Condition
 {
     String getQuestion(int num);
-    boolean sendAnswer(String ans, int num);
+    boolean sendAnswer(String quest, String ans, int num, Activity act);
     String makeResponse();
+    int getQuestionLength();
 }

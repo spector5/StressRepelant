@@ -1,11 +1,13 @@
 package rentedbanana.stressrepelant;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -18,27 +20,36 @@ public final class Dictionary
 {
     // all phrases of agreement
     private static final ArrayList<String> positiveDict = new ArrayList<>(Arrays.asList("yes", "yeah",
-            "it does", "i believe so", "that is [pos] what i think", "most of the time", "affirmative", "every time",
-            "usually", "all of the time", "all the time", "agree", "what i said", "i just said", "agreed",
-            "i [pos] think so", "whenever i", "everytime", "always", "do not disagree",
-            "i think that is what is happening", "i am [pos] sure that is happening",
-            "i am [pos] sure that is what is happening", "that is [pos] true", "[pos]"));
+            "it [pos] does", "i [pos] believe so", "i [pos] believe it is", "i [pos] believe that", "that is [pos] what i think",
+            "most of the time", "affirmative", "every time", "usually", "all of the time", "all the time",
+            "agree", "what i said", "i [pos] just said", "agreed", "i [pos] think so", "whenever i", "everytime",
+            "always", "do not disagree", "i [pos] think that is what is happening", "i am [pos] sure that is happening",
+            "i am [pos] sure that is what is happening", "that is [pos] true", "[pos]", "it [pos] is", "they [pos] do",
+            "i [pos] do", "they [pos] are", "i [pos] am", "there [pos] are", "that is [pos] true", "that is [pos] correct",
+            "is [pos] right", "are [pos] right", "that is [pos] the case"));
 
     // any adjective that would be used in a positive response (replaces [pos] in above list)
     private static final ArrayList<String> posAdjective = new ArrayList<>(Arrays.asList("definitely",
             "really", "pretty", "absolutely", "positively", "surely", "truly", "unquestionably", "easily",
             "decidedly", "decisively", "certainly", "genuinely", "honestly", "legitimately", "literally",
-            "undoubtedly", "admittedly", "should", "would", "distinctly"));
+            "undoubtedly", "admittedly", "should", "would", "distinctly", "probably", "often", "sometimes",
+            "some of the time", "mostly", "absolutely"));
 
     // all phrases of disagreement
     private static final ArrayList<String> negativeDict = new ArrayList<>(Arrays.asList("no", "nah",
             "it does not", "do not believe so", "[neg] what i think", "[neg] most of the time", "negative",
             "never", "[neg] usually", "none of the time", "disagree", "disagreed", "[neg] what i [wrd] said",
-            "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]"));
+            "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]", "false",
+            "incorrect", "not at all"));
+
+    private static final ArrayList<String> filterDict = new ArrayList<>(Arrays.asList("kill", "suicide", "dead",
+            "death", "murder", "die", "suicidal"));
+
+    // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip
 
     // any adjective that would be used in a negative response (replaces [neg] in above list)
-    private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not"));
-    // , "not at all", "should not", "would not", "does not"
+    private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not", "rarely",
+            "never"));
 
     // all phrases that indicate time that has passed and their equivelent number of days
     private static final HashMap<String, Integer> timeDict =  new HashMap<>(Collections.unmodifiableMap(
@@ -309,6 +320,27 @@ public final class Dictionary
 
         Log.d("in days", String.valueOf(duration));
         return duration;
+    }
+
+    /**
+     * Finds if a trigger word is in the text, sends notifications
+     * @param text = string to be searched
+     */
+    public static void filterText(String text, Activity act)
+    {
+        // format string
+        String string = cleanString(text);
+
+        for (int i = 0; i < filterDict.size(); i++)
+        {
+            //if (string.contains(filterDict.get(i)))
+            //{
+                // send notifications
+                /*new SendMailTask(act).execute("stressrepellenttest", "7knJCUgiao6X9eCK4q",
+                        new ArrayList<String>(Arrays.asList("turfandturf17@gmail.com")),
+                        "Stress Repellent Test", "This is a test of stress repellent.");*/
+            //}
+        }
     }
 
     /**
