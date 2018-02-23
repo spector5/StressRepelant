@@ -1,8 +1,10 @@
 package rentedbanana.stressrepelant;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -144,7 +146,7 @@ public class SpecificPhobia implements Condition
      * @param num = index of question
      * @return true if the answer makes sense, flase if the app cant figure out what the answer means
      */
-    public boolean sendAnswer(String quest, String ans, int num, Activity act)
+    public boolean sendAnswer(String quest, String ans, int num, Activity act, Context con)
     {
         int countPos;
         int countNeg;
@@ -157,13 +159,29 @@ public class SpecificPhobia implements Condition
         {
             // Marked fear or anxiety about a specific object or situation?
             case 0:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -173,6 +191,14 @@ public class SpecificPhobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -182,25 +208,49 @@ public class SpecificPhobia implements Condition
             // Specify if you can.
             // TODO this question may need to be switched, possibly throw an exception just to make something quick
             case 1:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 fear = ans;
                 countNeg = Dictionary.countNegative(ans);
                 Log.d("phob", String.valueOf(countNeg));
                 if (countNeg == 0) {
                     Log.d("phobia", "checked2");
+                    try {
+                        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                        outputStreamWriter.write("fufills:true\n");
+                        outputStreamWriter.close();
+                    }
+                    catch (Exception e) {
+                        Log.e("Exception", "File write failed: " + e.toString());
+                    }
                     criteria++;
                 }
                 Log.d("phob", "done");
                 return true;
             // Does the phobic object or situation almost always provokes immediate fear or anxiety?
             case 2:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -210,6 +260,14 @@ public class SpecificPhobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -218,13 +276,29 @@ public class SpecificPhobia implements Condition
                 }
             // Do you avoid the phobic object or situation?
             case 3:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -234,6 +308,14 @@ public class SpecificPhobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -242,13 +324,29 @@ public class SpecificPhobia implements Condition
                 }
             // Is the fear or anxiety out of proportion to the actual danger posed by the specific object or situation and to the sociocultural context?
             case 4:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -258,6 +356,14 @@ public class SpecificPhobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -266,13 +372,29 @@ public class SpecificPhobia implements Condition
                 }
             //Does the fear, anxiety, or avoidance is persistent, typically last for 6 months or more?
             case 5:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -282,6 +404,14 @@ public class SpecificPhobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -290,13 +420,29 @@ public class SpecificPhobia implements Condition
                 }
             // Does the fear, anxiety, or avoidance causes clinically significant distress or impairment in social, occupational, or other important areas of functioning?
             case 6:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -306,6 +452,14 @@ public class SpecificPhobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;

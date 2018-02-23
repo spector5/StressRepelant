@@ -1,8 +1,15 @@
 package rentedbanana.stressrepelant;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -326,10 +333,35 @@ public final class Dictionary
      * Finds if a trigger word is in the text, sends notifications
      * @param text = string to be searched
      */
-    public static void filterText(String text, Activity act)
+    public static void filterText(String text, Activity act, Context context)
     {
         // format string
         String string = cleanString(text);
+        if (string.contains("spit"))
+        {
+            try {
+                InputStream inputStream = context.openFileInput("textlog.txt");
+
+                if ( inputStream != null ) {
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String receiveString = "";
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    Log.d("textlog", "");
+                    while ( (receiveString = bufferedReader.readLine()) != null ) {
+                        Log.d("textlog", receiveString);
+                    }
+
+                    inputStream.close();
+                }
+            }
+            catch (FileNotFoundException e) {
+                Log.e("login activity", "File not found: " + e.toString());
+            } catch (Exception e) {
+                Log.e("login activity", "Can not read file: " + e.toString());
+            }
+        }
 
         for (int i = 0; i < filterDict.size(); i++)
         {

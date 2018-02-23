@@ -18,9 +18,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Random;
 
 public class TextActivity extends AppCompatActivity implements TaskFragment.TaskCallbacks {
@@ -52,9 +58,21 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private Random rand;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
+        context = this;
+
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("textlog.txt", Context.MODE_APPEND));
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            outputStreamWriter.write(dateFormat.format(date) + "\n");
+            outputStreamWriter.close();
+        }
+        catch (Exception e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
 
         questionsNums = new ArrayList<>();
         rand = new Random();
@@ -72,7 +90,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
         button = (Button)findViewById(R.id.button);
         send = (Button)findViewById(R.id.sendText);
         send.setVisibility(View.INVISIBLE);
-        context = this;
+
         if (mTaskFragment == null) {
             mTaskFragment = new TaskFragment();
             fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
@@ -124,6 +142,14 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
                         textview.setMaxLines(MAX_LINES);
                         textview.setText(response);
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("comp:" + response + "\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
 
                         //textview.requestFocus();
@@ -184,6 +210,14 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
 
         //Dictionary.countPositive(textview.getText().toString());
         inputLog.push(textview.getText().toString());
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("textlog.txt", Context.MODE_APPEND));
+            outputStreamWriter.write("user:" + textview.getText().toString() + "\n");
+            outputStreamWriter.close();
+        }
+        catch (Exception e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
         textview = null;
 
         submitted = true;
@@ -199,7 +233,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 if (state == 0)
                 {
                     // user indicates they have a problem
-                    Dictionary.filterText(inputLog.getFirst(), act);
+                    Dictionary.filterText(inputLog.getFirst(), act, context);
                     if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
                     {
                         state++;
@@ -215,7 +249,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 else if (state == 1)
                 {
                     // user indicates they have whatever condition was asked
-                    Dictionary.filterText(inputLog.getFirst(), act);
+                    Dictionary.filterText(inputLog.getFirst(), act, context);
                     if (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst())) {
                         state++;
                         // switches on condition index to set cond to an instance of a condition
@@ -306,7 +340,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         Log.d("state", "2");
                         // send answer to condition, get next question
 
-                        cond.sendAnswer(response, inputLog.getFirst(), questionNum, act);
+                        cond.sendAnswer(response, inputLog.getFirst(), questionNum, act, context);
                         questionNum = questionsNums.remove(rand.nextInt(questionsNums.size()));
                         response = cond.getQuestion(questionNum);
                         /* (Dictionary.countPositive(inputLog.getFirst()) > Dictionary.countNegative(inputLog.getFirst()))
@@ -335,6 +369,14 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
                         textview.setMaxLines(MAX_LINES);
                         textview.setText(response);
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("comp:" + response + "\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
 
                         //textview.requestFocus();

@@ -1,7 +1,10 @@
 package rentedbanana.stressrepelant;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -148,7 +151,7 @@ public class Agoraphobia implements Condition
      * @param num = index of question
      * @return true if the answer makes sense, flase if the app cant figure out what the answer means
      */
-    public boolean sendAnswer(String quest, String ans, int num, Activity act)
+    public boolean sendAnswer(String quest, String ans, int num, Activity act, Context con)
     {
         int countPos;
         int countNeg;
@@ -158,13 +161,29 @@ public class Agoraphobia implements Condition
         {
             // Marked fear or anxiety about two (or more) of the following five situations: standing in line or being in a crowd, being in enclosed places, being in open spaces, using public transportation, being outside of the home alone?
             case 0:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -174,6 +193,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -182,13 +209,29 @@ public class Agoraphobia implements Condition
                 }
             // Do you avoid these situations because of thoughts that escape might be difficult or help might not be available in the event of developing panic-like symptoms or other incapacitating or embarrassing symptoms?
             case 1:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -198,6 +241,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -206,13 +257,29 @@ public class Agoraphobia implements Condition
                 }
             // Does the agoraphobic situation almost always provoke fear or anxiety?
             case 2:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -222,6 +289,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -230,13 +305,29 @@ public class Agoraphobia implements Condition
                 }
             // Are the agoraphobic situations actively avoided, require the presence of a companion, or are endured with intense fear or anxiety?
             case 3:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -246,6 +337,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -254,13 +353,29 @@ public class Agoraphobia implements Condition
                 }
             // Is the fear or anxiety out of proportion to the actual danger posed by the agoraphobic situations and to the sociocultural context?
             case 4:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -270,6 +385,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -278,13 +401,29 @@ public class Agoraphobia implements Condition
                 }
             // Is the fear, anxiety, or avoidance persistent, typically lasting for 6 months or more?
             case 5:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -294,6 +433,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -302,13 +449,29 @@ public class Agoraphobia implements Condition
                 }
             // Does the fear, anxiety, or avoidance cause clinically significant distress or impairment in social, occupational, or other important areas of functioning?
             case 6:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -318,6 +481,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -326,13 +497,29 @@ public class Agoraphobia implements Condition
                 }
             // If another medical condition is present, the fear anxiety or avoidance is clearly excessive?
             case 7:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -342,6 +529,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -350,13 +545,29 @@ public class Agoraphobia implements Condition
                 }
             // Is the fear, anxiety, or avoidance not better explained by the symptoms of another mental disorder?
             case 8:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -366,6 +577,14 @@ public class Agoraphobia implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;

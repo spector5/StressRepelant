@@ -1,7 +1,10 @@
 package rentedbanana.stressrepelant;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -121,7 +124,7 @@ public class PanicDisorder implements Condition
      * @param num = index of question
      * @return true if the answer makes sense, flase if the app cant figure out what the answer means
      */
-    public boolean sendAnswer(String quest, String ans, int num, Activity act)
+    public boolean sendAnswer(String quest, String ans, int num, Activity act, Context con)
     {
         int countPos;
         int countNeg;
@@ -131,13 +134,29 @@ public class PanicDisorder implements Condition
         {
             // Do you have recurrent unexpected panic attacks?
             case 0:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -147,6 +166,14 @@ public class PanicDisorder implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -155,13 +182,29 @@ public class PanicDisorder implements Condition
                 }
             // Has at least one of the attacks been followed by 1 month (or more) of one or both of the following: a significant maladaptive change in behavior related to the attacks or persistent concern or worry about additional panic attacks?
             case 1:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -171,6 +214,14 @@ public class PanicDisorder implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -179,13 +230,29 @@ public class PanicDisorder implements Condition
                 }
             // Are the disturbances not attributable to the physiological effects of a substance or another medical condition?
             case 2:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -195,6 +262,14 @@ public class PanicDisorder implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -203,13 +278,29 @@ public class PanicDisorder implements Condition
                 }
             // Are the disturbances not better explained by another mental disorder?
             case 3:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -218,6 +309,14 @@ public class PanicDisorder implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         criteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
