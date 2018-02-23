@@ -115,9 +115,9 @@ public class PotentialSelectiveMutism implements Condition
             String response = "";
 
             response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(fourthComp.size())));
+            response = response.concat(secondComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(thirdComp.get(rand.nextInt(thirdComp.size())));
+            response = response.concat(fourthComp.get(rand.nextInt(fourthComp.size())));
             return response;
         }
         else

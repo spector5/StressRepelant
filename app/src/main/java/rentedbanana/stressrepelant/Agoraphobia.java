@@ -128,8 +128,8 @@ public class Agoraphobia implements Condition
             String response = "";
 
             response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+            response = response.concat(secondComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(thirdComp.get(rand.nextInt(thirdComp.size())));
 
             return response;
         }
