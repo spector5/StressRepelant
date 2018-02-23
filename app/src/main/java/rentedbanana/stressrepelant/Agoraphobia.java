@@ -117,13 +117,12 @@ public class Agoraphobia implements Condition
             ArrayList<String> firstComp = new ArrayList<>(Arrays.asList("It seems you have anxiety based on being at a perticular location.",
                     "I believe you may be have anxiety from being outside or at a particular location.",
                     "It looks to me like you have some issues with being outside."));
-            // TODO start here
-            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" You should be aware of some signs of panic, like elevated heart rate, dizziness, or sweating.",
-                    " Some symptoms you need to look out for are weakness, muscle spasms, and elevated heart rate.",
-                    " You need to watch for sudden chills, shortness of breath, or a fear you are going crazy."));
-            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" If you see these symptoms you should sit down where ever you are, relax your muscles as much as possible, and focus on breathing slowly.",
-                    " If you have an attack, you should sit down and let your muscles relax. Also focus on breathing very slowly.",
-                    " If you begin to panic you should focus on breathing slowly and sit down so your muscles can relax."));
+            ArrayList<String> secondComp = new ArrayList<>(Arrays.asList(" A good place to start is to ease yourself into uncomfortable places.",
+                    " To overccome this you will eventually need to put yourself in that uncomfortable location, very slowly.",
+                    " You will eventually need to put yourself in the location you are anxieous about, but this should be done very slowly."));
+            ArrayList<String> thirdComp = new ArrayList<>(Arrays.asList(" To begin, just put yourself on the outsckirts of your anxious place, somewhere you have the option of leaving. Every day try to go just a little further into this area.",
+                    " Try to put yourself on the outskirts of your fearful area and every day get abit further in.",
+                    " Every day you should try to go a little further into an area that makes you uncomfortable, but start by just being on the outskirts."));
             Random rand = new Random();
 
             String response = "";
