@@ -28,6 +28,8 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
     private static final String TAG_TASK_FRAGMENT = "task_fragment";
     private TaskFragment mTaskFragment;
 
+    private final int MAX_LINES = 15;
+
     private TableLayout tl;
     private Button button;
     private Button send;
@@ -120,7 +122,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         textview.setWidth((screenWidth / 3) * 2);
 
                         textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
-                        textview.setMaxLines(10);
+                        textview.setMaxLines(MAX_LINES);
                         textview.setText(response);
                         //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
 
@@ -153,7 +155,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
         textview.setWidth((screenWidth / 3) * 2);
 
         textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_user));
-        textview.setMaxLines(10);
+        textview.setMaxLines(MAX_LINES);
         textview.setText("");
         textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
 
@@ -331,7 +333,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         textview.setWidth((screenWidth / 3) * 2);
 
                         textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
-                        textview.setMaxLines(10);
+                        textview.setMaxLines(MAX_LINES);
                         textview.setText(response);
                         //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
 

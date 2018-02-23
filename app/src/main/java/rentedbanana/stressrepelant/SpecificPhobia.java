@@ -128,9 +128,9 @@ public class SpecificPhobia implements Condition
             String response = "";
 
             response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(fourthComp.size())));
+            response = response.concat(secondComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(thirdComp.get(rand.nextInt(thirdComp.size())));
+            response = response.concat(fourthComp.get(rand.nextInt(fourthComp.size())));
             response = response + " Then, once you feel abit more comfortable you can find a slightly more realistic object to get accustomed to.";
             return response;
         }

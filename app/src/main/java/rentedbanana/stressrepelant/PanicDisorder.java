@@ -17,7 +17,7 @@ public class PanicDisorder implements Condition
     private int criteria;   // how many criteria are met
     //private int subcriteria;    // how many of the subcriteria are met (need 3 to satisfy requirement)
 
-    private static final String starter = "Do you often have fear what seems to be randomly and reoccuring?";
+    private static final String starter = "Do you often have fear that seems to be random and reoccuring?";
 
     private final Hashtable<Integer, Hashtable<String, Boolean>> questions = new Hashtable<Integer, Hashtable<String, Boolean>>(){{
         put(0, new Hashtable<String, Boolean>(){{
@@ -28,7 +28,7 @@ public class PanicDisorder implements Condition
             put("Has at least one of the attacks been followed by 1 month (or more) of one or both of the following: a significant maladaptive change in behavior related to the attacks or persistent concern or worry about additional panic attacks?", true);
             put("Have you recently had an attack followed by 1 month or more of one or both of these: a significant maladaptive change in behavior related to the attacks or persistent concern or worry about additional panic attacks?", true);}});
         put(2, new Hashtable<String, Boolean>(){{
-            put("Are the disturbances not attributable to the physiological effects of a substance or another medical condition?", false);
+            put("Are the disturbances attributable to the physiological effects of a substance or another medical condition?", false);
             put("Are the disturbances caused by the effects of a substance or other medical condition?", false);
             put("Do you have another medical condition or use a substance that may be causing these disturbances?", true);}});
         put(3, new Hashtable<String, Boolean>(){{
@@ -105,8 +105,8 @@ public class PanicDisorder implements Condition
             String response = "";
 
             response = response.concat(firstComp.get(rand.nextInt(firstComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(secondComp.size())));
-            response = response.concat(firstComp.get(rand.nextInt(thirdComp.size())));
+            response = response.concat(secondComp.get(rand.nextInt(secondComp.size())));
+            response = response.concat(thirdComp.get(rand.nextInt(thirdComp.size())));
             response = response + " In a panic you need to tell yourself that this is only temporary, it won't last forever and you will get through it.";
 
             return response;
