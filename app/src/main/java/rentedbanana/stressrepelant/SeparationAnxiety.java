@@ -37,7 +37,7 @@ public class SeparationAnxiety implements Condition
             put("Does this feeling cause significant distress in some social, occupational, or other area of your life?", true);
             put("Do you feel significant distress caused by these symptoms?", true);}});
         put(2, new Hashtable<String, Boolean>(){{
-            put("Are there recurrent excessive distress when anticipating separation from home or from major attachment figures?", true);
+            put("Is there recurrent excessive distress when anticipating separation from home or from major attachment figures?", true);
             put("Do you feel distressed when anticipating separation from home or major attachment figures?", true);
             put("Have you been feeling stressed when you anticipate being separated from home or people you care about?", true);}});
         put(3, new Hashtable<String, Boolean>(){{

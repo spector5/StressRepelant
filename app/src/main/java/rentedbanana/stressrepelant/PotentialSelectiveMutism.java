@@ -33,7 +33,7 @@ public class PotentialSelectiveMutism implements Condition
             put("Have you had issues at school, work, or in social situations related to these disturbances?", true);
             put("Do these disturbances interfere with your ability to communicate socially?", true);}});
         put(2, new Hashtable<String, Boolean>(){{
-            put("Is there consistent failure to speak in specific social situations in which there is an expectation for speaking despite speaking in other situations?", false);
+            put("Is there consistent failure to speak in specific social situations in which there is an expectation for speaking?", true);
             put("Do you consistently fail to speak in specific social situations you are expected to speak at?", true);
             put("Have you been unable to speak at times you were expected to speak?", true);}});
         put(3, new Hashtable<String, Boolean>(){{
@@ -41,7 +41,7 @@ public class PotentialSelectiveMutism implements Condition
             put("Is your failure to speak caused by a lack of knowledge of a spoken language?", false);
             put("Do you have trouble speaking because you are unfamiliar with a spoken language?", false);}});
         put(4, new Hashtable<String, Boolean>(){{
-            put("Are the disturbances not better explained by a different cause?", true);
+            put("Are the disturbances not better explained by a different cause?", false);
             put("Do you have a different medical or mental condition that explains your inability to speak?", false);}});
     }};
 

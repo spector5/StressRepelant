@@ -229,6 +229,17 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                 //response = "Debug: user input contained " + count + " positive indicators.";
                 //response = "";    TODO i dont remember why this was added, but I took it out to make the new version of sendAnswer work
 
+                if (state == 6)
+                {
+                    Dictionary.filterText(inputLog.getFirst(), act, context);
+                    if (Dictionary.countPositive(inputLog.getFirst()) > 0)
+                    {
+                        // find resources
+                        response = "Continue Conversations";
+                        state = 1;
+                        condition++;
+                    }
+                }
                 // runs at startup
                 if (state == 0)
                 {
@@ -353,8 +364,20 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         // end questioning and give advice
                         response = cond.makeResponse();
                         Log.d("null point", e.getMessage());
+                        state = 3;
                     }
                 }
+                else if (state == 4)
+                {
+                    Dictionary.filterText(inputLog.getFirst(), act, context);
+                    if (Dictionary.countPositive(inputLog.getFirst()) > 0)
+                    {
+                        // find resources
+                        response = "Here are the resources I found";
+                        state = 5;
+                    }
+                }
+
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -384,6 +407,66 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         lp.setMargins(screenWidth - (76 + (screenWidth / 3) * 2), 0, 0, 40);
                         tr.addView(textview, lp);
                         tl.addView(tr);
+
+                        if (state == 3)
+                        {
+                            tr = new TableRow(context);
+                            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                            textview = new TextView(context);
+                            textview.setGravity(Gravity.LEFT);
+                            screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+                            textview.setWidth((screenWidth / 3) * 2);
+
+                            textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
+                            textview.setMaxLines(MAX_LINES);
+                            textview.setText("Would you like me to find more information and resources for you?");
+                            try {
+                                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                                outputStreamWriter.write("comp:" + response + "\n");
+                                outputStreamWriter.close();
+                            }
+                            catch (Exception e) {
+                                Log.e("Exception", "File write failed: " + e.toString());
+                            }
+                            //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
+
+                            //textview.requestFocus();
+                            lp = new TableRow.LayoutParams();
+                            lp.setMargins(screenWidth - (76 + (screenWidth / 3) * 2), 0, 0, 40);
+                            tr.addView(textview, lp);
+                            tl.addView(tr);
+                            state++;
+                        }
+
+                        if (state == 5)
+                        {
+                            tr = new TableRow(context);
+                            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                            textview = new TextView(context);
+                            textview.setGravity(Gravity.LEFT);
+                            screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+                            textview.setWidth((screenWidth / 3) * 2);
+
+                            textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
+                            textview.setMaxLines(MAX_LINES);
+                            textview.setText("Is there anything else you would like to talk about?");
+                            try {
+                                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                                outputStreamWriter.write("comp:" + response + "\n");
+                                outputStreamWriter.close();
+                            }
+                            catch (Exception e) {
+                                Log.e("Exception", "File write failed: " + e.toString());
+                            }
+                            //textview.setImeActionLabel("Done", KeyEvent.KEYCODE_ENTER);
+
+                            //textview.requestFocus();
+                            lp = new TableRow.LayoutParams();
+                            lp.setMargins(screenWidth - (76 + (screenWidth / 3) * 2), 0, 0, 40);
+                            tr.addView(textview, lp);
+                            tl.addView(tr);
+                            state++;
+                        }
                     }
                 }); // end runOnUIThread
             }   // end thread run method

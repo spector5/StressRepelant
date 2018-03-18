@@ -368,9 +368,9 @@ public final class Dictionary
             //if (string.contains(filterDict.get(i)))
             //{
                 // send notifications
-                /*new SendMailTask(act).execute("stressrepellenttest", "7knJCUgiao6X9eCK4q",
+                new SendMailTask(act).execute("stressrepellenttest@gmail.com", "7knJCUgiao6X9eCK4q",
                         new ArrayList<String>(Arrays.asList("turfandturf17@gmail.com")),
-                        "Stress Repellent Test", "This is a test of stress repellent.");*/
+                        "Stress Repellent Test", "This is a test of stress repellent.");
             //}
         }
     }

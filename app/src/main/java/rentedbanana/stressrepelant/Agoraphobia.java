@@ -54,8 +54,8 @@ public class Agoraphobia implements Condition
             put("If another medical condition is present, is the fear, anxiety, or avoidance clearly excessive?", true);}});
         put(8, new Hashtable<String, Boolean>(){{
             put("Is the fear, anxiety, or avoidance not better explained by the symptoms of another mental disorder?", true);
-            put("Do you have a different mental disorder that may be causing this fear or anxiety?", true);
-            put("Is there a different mental disorder that you have been diagnosed with that many be causing this fear or anxiety?", true);}});
+            put("Do you have a different mental disorder that may be causing this fear or anxiety?", false);
+            put("Is there a different mental disorder that you have been diagnosed with that may be causing this fear or anxiety?", false);}});
     }};
 
     /*private final ArrayList<String> questions = new ArrayList<>(Arrays.asList("Marked fear or anxiety about two (or more) of the following five situations: standing in line or being in a crowd, being in enclosed places, being in open spaces, using public transportation, being outside of the home alone?",

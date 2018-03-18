@@ -20,7 +20,7 @@ public class PanicDisorder implements Condition
     private int criteria;   // how many criteria are met
     //private int subcriteria;    // how many of the subcriteria are met (need 3 to satisfy requirement)
 
-    private static final String starter = "Do you often have fear that seems to be random and reoccuring?";
+    private static final String starter = "Do you often have fear that seems to be random and reoccurring?";
 
     private final Hashtable<Integer, Hashtable<String, Boolean>> questions = new Hashtable<Integer, Hashtable<String, Boolean>>(){{
         put(0, new Hashtable<String, Boolean>(){{
