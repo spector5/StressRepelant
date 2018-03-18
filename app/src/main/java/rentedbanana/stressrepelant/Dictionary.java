@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import android.telephony.SmsManager;
 
 /**
  * Dictionary used to check messages for positive or negative responses
@@ -365,13 +366,19 @@ public final class Dictionary
 
         for (int i = 0; i < filterDict.size(); i++)
         {
-            //if (string.contains(filterDict.get(i)))
-            //{
+            if (string.contains(filterDict.get(i)))
+            {
                 // send notifications
                 new SendMailTask(act).execute("stressrepellenttest@gmail.com", "7knJCUgiao6X9eCK4q",
                         new ArrayList<String>(Arrays.asList("turfandturf17@gmail.com")),
                         "Stress Repellent Test", "This is a test of stress repellent.");
-            //}
+
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage("8049292343", null,
+                        "|Alert| " + null + ", in conversation with StressRepelant, said: \"" + 
+                                text +"\" You may want to consider checking on them or telling someone who could help.", null, null);
+                break;
+            }
         }
     }
 
