@@ -160,6 +160,11 @@ public class SpecificPhobia implements Condition
             // Marked fear or anxiety about a specific object or situation?
             case 0:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -229,6 +234,11 @@ public class SpecificPhobia implements Condition
             // Does the phobic object or situation almost always provokes immediate fear or anxiety?
             case 2:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -277,6 +287,11 @@ public class SpecificPhobia implements Condition
             // Do you avoid the phobic object or situation?
             case 3:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -325,6 +340,11 @@ public class SpecificPhobia implements Condition
             // Is the fear or anxiety out of proportion to the actual danger posed by the specific object or situation and to the sociocultural context?
             case 4:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -373,6 +393,11 @@ public class SpecificPhobia implements Condition
             //Does the fear, anxiety, or avoidance is persistent, typically last for 6 months or more?
             case 5:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -421,6 +446,11 @@ public class SpecificPhobia implements Condition
             // Does the fear, anxiety, or avoidance causes clinically significant distress or impairment in social, occupational, or other important areas of functioning?
             case 6:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {

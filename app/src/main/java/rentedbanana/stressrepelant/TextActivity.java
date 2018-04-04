@@ -127,7 +127,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
             public void run() {
                 // TODO this is where computer response goes
                 //int count = Dictionary.countPositive(inputLog.peek());
-                response = "Are you having problems today?";
+                response = "Hello " + getIntent().getStringExtra("FIRST_NAME") + ", are you feeling stressed today?";
 
                 runOnUiThread(new Runnable() {
                     @Override

@@ -163,6 +163,11 @@ public class SocialAnxiety implements Condition
             // Marked fear or anxiety about one or more social situations in which the individual is exposed to possible scrutiny by others?
             case 0:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -211,6 +216,11 @@ public class SocialAnxiety implements Condition
             // Are the individual fears that he or she will act in a way or show anxiety symptoms that will be negatively evaluated?
             case 1:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -259,6 +269,11 @@ public class SocialAnxiety implements Condition
             // Do social situations almost always provoke fear or anxiety?
             case 2:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -307,6 +322,11 @@ public class SocialAnxiety implements Condition
                 // Are social situations avoided or endured with intense fear or anxiety?
             case 3:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -355,6 +375,11 @@ public class SocialAnxiety implements Condition
             // Is the fear or anxiety out of proportion to the actual threat posed by the social situation and to the sociocultural context?
             case 4:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -403,6 +428,11 @@ public class SocialAnxiety implements Condition
             // If another medical condition is present, the fear, anxiety, or avoidance is clearly unrelated or is excessive?
             case 5:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -451,6 +481,11 @@ public class SocialAnxiety implements Condition
             // Is the fear, anxiety, or avoidance is not better explained by the symptoms of another mental disorder, such as panic disorder, body dysmorphic disorder, or autism spectrum disorder?
             case 6:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -499,6 +534,11 @@ public class SocialAnxiety implements Condition
             // Is the fear, anxiety, or avoidance not attributable to the physiological effects of a substance?
             case 7:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -547,6 +587,11 @@ public class SocialAnxiety implements Condition
             // Does the fear, anxiety, or avoidance causes clinically significant distress or impairment in social, occupational, or other important areas of functioning?
             case 8:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -595,6 +640,11 @@ public class SocialAnxiety implements Condition
             // Does the fear, anxiety, or avoidance is persistent, typically lasting for 6 months or more?
             case 9:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {

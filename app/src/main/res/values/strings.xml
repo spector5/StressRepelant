@@ -14,7 +14,7 @@
     <string name="stay_logged_in">Stay Logged in</string>
 
     <!-- Create Account Strings-->
-    <string name="ask_name">Full Name</string>
+    <string name="ask_name">First Name</string>
     <string name="ask_email">Email</string>
     <string name="create_account">Create Account</string>
     <string name="ask_password">Password</string>

@@ -52,7 +52,9 @@ public final class Dictionary
     private static final ArrayList<String> filterDict = new ArrayList<>(Arrays.asList("kill", "suicide", "dead",
             "death", "murder", "die", "suicidal"));
 
-    // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip
+    // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip, maybe
+    private static final ArrayList<String> unsureDict = new ArrayList<>(Arrays.asList("sometimes", "somewhat", "dont know",
+            "not sure", "unsure", "uncertain", "dont want to answer", "decline", "skip", "maybe"));
 
     // any adjective that would be used in a negative response (replaces [neg] in above list)
     private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not", "rarely",
@@ -373,6 +375,27 @@ public final class Dictionary
                         "Stress Repellent Test", "This is a test of stress repellent.");
             //}
         }
+    }
+
+    /**
+     * Counts how many phrases indicate the user agrees with a question
+     * @param text = user response
+     * @return number of positive phrases
+     */
+    public static int checkUnsure(String text)
+    {
+        // format string
+        String string = cleanString(text);
+        int count = 0;
+
+        // dictionary could become very large, brainstorm preprocessing that can reduce number of loops
+        for (int i = 0; i < unsureDict.size(); i++)
+        {
+            if (string.contains(positiveDict.get(i)))    // found phrase with no adjective
+                count++;
+        }
+
+        return count;
     }
 
     /**

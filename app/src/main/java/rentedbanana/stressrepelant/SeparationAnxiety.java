@@ -190,6 +190,11 @@ public class SeparationAnxiety implements Condition
             // How long has the symptoms lasted?
             case 0:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 if ((duration = Dictionary.countDays(ans)) > 0) {
                     try {
                         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
@@ -216,6 +221,11 @@ public class SeparationAnxiety implements Condition
             // Do the disturbances causes significant distress in social, academic, occupational, or other important areas of functioning?
             case 1:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 Log.d("case1hash", questions.get(num).toString());
                 Hashtable<String, Boolean> hold = questions.get(num);
                 Log.d("case1quest", quest);
@@ -270,6 +280,11 @@ public class SeparationAnxiety implements Condition
                 // Are there recurrent excessive distress when anticipating separation from home or from major attachment figures?
             case 2:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -318,6 +333,11 @@ public class SeparationAnxiety implements Condition
                 // Is there persistent worry about losing major attachment figures or about possible harm to them, such as illness, injury, disaster, or death?
             case 3:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -366,6 +386,11 @@ public class SeparationAnxiety implements Condition
                 // Is there persistent and excessive worry about experiencing an untoward event that causes separation from a major attachment figure?
             case 4:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -414,6 +439,11 @@ public class SeparationAnxiety implements Condition
                 // Is there persistent reluctance or refusal to go out, away from home, to school, to work, or elsewhere because of fear of separation?
             case 5:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -462,6 +492,11 @@ public class SeparationAnxiety implements Condition
                 // Is there persistent fear of or reluctance about being alone or without major attachment figures at home or in other settings?
             case 6:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -510,6 +545,11 @@ public class SeparationAnxiety implements Condition
                 // Is there persistent reluctance or refusal to sleep away from home or to got to sleep without being near a major attachment figure?
             case 7:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -558,6 +598,11 @@ public class SeparationAnxiety implements Condition
                 // Are there repeated nightmares involving the theme of separation?
             case 8:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -606,6 +651,11 @@ public class SeparationAnxiety implements Condition
                 // Are there repeated complaints of physical symptoms when separation from major attachment figures occurs or is anticipated?
             case 9:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {

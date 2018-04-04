@@ -135,6 +135,11 @@ public class PanicDisorder implements Condition
             // Do you have recurrent unexpected panic attacks?
             case 0:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -183,6 +188,11 @@ public class PanicDisorder implements Condition
             // Has at least one of the attacks been followed by 1 month (or more) of one or both of the following: a significant maladaptive change in behavior related to the attacks or persistent concern or worry about additional panic attacks?
             case 1:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -231,6 +241,11 @@ public class PanicDisorder implements Condition
             // Are the disturbances not attributable to the physiological effects of a substance or another medical condition?
             case 2:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -279,6 +294,11 @@ public class PanicDisorder implements Condition
             // Are the disturbances not better explained by another mental disorder?
             case 3:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {

@@ -144,6 +144,11 @@ public class PotentialSelectiveMutism implements Condition
             // Have the duration of the disturbance lasted at least 1 month?
             case 0:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -192,6 +197,11 @@ public class PotentialSelectiveMutism implements Condition
             // Do the disturbance interfere with educational or occupational achievement or with social communication?
             case 1:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -240,6 +250,11 @@ public class PotentialSelectiveMutism implements Condition
             // Is there consistant failure to speak in specific social situations in which there is an expectation for speaking despite speaking in other situations?
             case 2:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -288,6 +303,11 @@ public class PotentialSelectiveMutism implements Condition
             // Is there a failure to speak not attributable to a lack of knowledge of, or comfort with, the spoken language required in the social situation?
             case 3:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
@@ -336,6 +356,11 @@ public class PotentialSelectiveMutism implements Condition
             // Are the disturbances not better explained by a different cause?
             case 4:
                 Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
                 try {
