@@ -13,6 +13,11 @@
     <string name="incorrect_password">Incorrect Password</string>
     <string name="stay_logged_in">Stay Logged in</string>
 
+    <string name="profile_age">Age Range</string>
+    <string name="profile_gender">Gender</string>
+    <string name="profile_race">Race/Ethnicity</string>
+    <string name="profile_submit">Submit</string>
+
     <!-- Create Account Strings-->
     <string name="ask_name">First Name</string>
     <string name="ask_email">Email</string>

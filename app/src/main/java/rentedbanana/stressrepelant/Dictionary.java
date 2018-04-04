@@ -50,8 +50,7 @@ public final class Dictionary
             "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]", "false",
             "incorrect", "not at all"));
 
-    private static final ArrayList<String> filterDict = new ArrayList<>(Arrays.asList("kill", "suicide", "dead",
-            "death", "murder", "die", "suicidal"));
+    //private static final ArrayList<String> filterDict = new ArrayList<>(Arrays.asList());
 
     // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip, maybe
     private static final ArrayList<String> unsureDict = new ArrayList<>(Arrays.asList("sometimes", "somewhat", "dont know",
@@ -366,7 +365,7 @@ public final class Dictionary
             }
         }
 
-        for (int i = 0; i < filterDict.size(); i++)
+        /*for (int i = 0; i < filterDict.size(); i++)
         {
             if (string.contains(filterDict.get(i)))
             {
@@ -381,7 +380,7 @@ public final class Dictionary
                                 text +"\" You may want to consider checking on them or telling someone who could help.", null, null);
                 break;
             }
-        }
+        }*/
     }
 
     /**

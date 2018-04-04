@@ -79,14 +79,17 @@ public class createAccountActivity extends AppCompatActivity {
             Toast.makeText(this, "User already exists", Toast.LENGTH_LONG).show();
         else
         {
-            LocalDB.addUser(new User(name, user, pass));
-            Toast.makeText(this, "Created user", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Created user", Toast.LENGTH_LONG).show();
+            LocalDB.closeDB();
+
+            Intent i = new Intent(this, ProfilerActivity.class);
+            i.putExtra("USERNAME", user);
+            i.putExtra("PASSWORD", pass);
+            i.putExtra("FIRST_NAME", name);
+            startActivity(i);
+            finish();
         }
         LocalDB.closeDB();
-
-        //Intent i = new Intent(this, TextActivity.class);
-        //startActivity(i);
-        finish();
     }
 }
 

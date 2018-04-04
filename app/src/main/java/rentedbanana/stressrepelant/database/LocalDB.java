@@ -18,7 +18,7 @@ public class LocalDB
     protected static final String TAG = "LocalDB";
     // DB INFO
     protected static final String DATABASE_NAME = "StressRepellent";
-    protected static final int DATABASE_VERSION = 2;
+    protected static final int DATABASE_VERSION = 4;
     // DB OBJECTS
     private static DatabaseHelper dBHelper = null;
     private static SQLiteDatabase db = null;
@@ -55,8 +55,11 @@ public class LocalDB
         String username = c.getString(c.getColumnIndex(User_T.USERNAME));
         String password = c.getString(c.getColumnIndex(User_T.PASSWORD));
         String firstname = c.getString(c.getColumnIndex(User_T.NAME));
+        String race = c.getString(c.getColumnIndex(User_T.RACE));
+        String gender = c.getString(c.getColumnIndex(User_T.GENDER));
+        String age = c.getString(c.getColumnIndex(User_T.AGE));
         Log.d("db stuff..........", "reuturn user with u,p,n " + username + password + name);
-        return new User(firstname, username, password);
+        return new User(firstname, username, password, age, race, gender);
     }
 
     @Nullable
@@ -99,6 +102,9 @@ public class LocalDB
         values.put(User_T.USERNAME, user.getUsername());
         values.put(User_T.PASSWORD, user.getPassword());
         values.put(User_T.NAME, user.getName());
+        values.put(User_T.RACE, user.getRace());
+        values.put(User_T.AGE, user.getAge());
+        values.put(User_T.GENDER, user.getGender());
         long results = db.insert(User_T.TABLE_NAME, null, values);
         if (results == -1)
             return FAILURE;
