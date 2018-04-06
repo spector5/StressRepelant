@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -236,7 +238,8 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                     {
                         // find resources
                         response = "Continue Conversations";
-                        state = 1;
+                        //state = 1;
+                        state = 0;
                         condition++;
                     }
                 }
@@ -253,7 +256,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                     }
                     else
                     {
-                        response = "Ok then, you are fine today.";
+                        response = "Ok then, I'll be here if you need anything.";
                     }
                 }
                 // runs when we know there is an issue
@@ -364,7 +367,8 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                         // end questioning and give advice
                         response = cond.makeResponse();
                         Log.d("null point", e.getMessage());
-                        state = 3;
+                        state = 5;
+                        //state = 3;// TODO this was changed to make extra resrouces unreachable, this need to be fixed in the first update
                     }
                 }
                 else if (state == 4)
@@ -373,9 +377,10 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
                     if (Dictionary.countPositive(inputLog.getFirst()) > 0)
                     {
                         // find resources
-                        response = "Here are the resources I found";
+                        response = getString(R.string.links) + getString(R.string.link1) + getString(R.string.link2) + getString(R.string.link3);
                         state = 5;
                     }
+                    state = 5;
                 }
 
 
@@ -449,6 +454,7 @@ public class TextActivity extends AppCompatActivity implements TaskFragment.Task
 
                             textview.setBackground(getResources().getDrawable(R.drawable.rounded_edittext_comp));
                             textview.setMaxLines(MAX_LINES);
+
                             textview.setText("Is there anything else you would like to talk about?");
                             try {
                                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("textlog.txt", Context.MODE_APPEND));

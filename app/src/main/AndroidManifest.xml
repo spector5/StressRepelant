@@ -24,11 +24,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".TextActivity">
-            <!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".SettingsActivity"
@@ -36,7 +39,9 @@
         <activity
             android:name=".createAccountActivity"
             android:label="@string/title_activity_create_account" />
-        <activity android:name=".Prompt"></activity>
+        <activity android:name=".Prompt" />
+        <activity android:name=".LegalActivity" />
+        <activity android:name=".ProfilerActivity"></activity>
     </application>
 
 </manifest>

@@ -18,6 +18,46 @@
     <string name="profile_race">Race/Ethnicity</string>
     <string name="profile_submit">Submit</string>
 
+    <string name="links">Here are some helpful numbers:\n800-826-3632\n800-999-9999\nYou can also use these websites:\n</string>
+    <string name="link1"><a href="http://www.apa.org/topics/stress/index.aspx">APA</a>\n</string>
+    <string name="link2"><a href="https://healthfinder.gov/FindServices/SearchContext.aspx?topic=825">HealthFinder</a>\n</string>
+    <string name="link3"><a href="http://www.heart.org/HEARTORG/HealthyLiving/StressManagement/Stress-Management_UCM_001082_SubHomePage.jsp">American Heart Association</a>\n</string>
+
+    <string name="legal_agree">I agree to the above statement</string>
+    <string name="legal">The contributors to and developers of this application have taken reasonable
+        steps to provide accurate and reliable information for this application. However, there is no
+        assurance or guarantee that the statements contained in this application are correct, precise,
+        or up-to-date. The application was created by individuals that are not professionals and the
+        application is for informational purposes only. The information is provided “as is” with no
+        warranties of any kind, express or implied.\n\n
+        This application is intended to be used as a self-help tool for adults, and is not designed to
+        be therapeutic or provide psychological, psychiatric or medical advice. By using this application,
+        you acknowledge that the application is not a diagnostic instrument and that you are 18 years or
+        older. You are encouraged to share your results with a physician or other healthcare provider.\n\n
+        The application is not an exhaustive collection of information available to a given individual
+        for a given behavioral health problem, nor as an endorsement of specific treatments or services.
+        Nothing on the application should be construed as an attempt to offer or render a medical or mental
+        health opinion or otherwise engage in the practice of medicine or psychology. The information
+        provided is, at best, of a general nature and cannot substitute for the advice of, diagnosis or
+        treatment of a psychological, psychiatric or medical professional.\n\n
+        Even if a statement about medicine is accurate, it may not apply to you or your symptoms. Please
+        take all steps necessary to ascertain that information you receive from this application is correct
+        and has been verified. For an accurate diagnosis of a mental health disorder, you should seek an
+        evaluation from a qualified mental health professional. Never disregard professional medical advice
+        or delay in seeking it because of something you have read on this application. If you feel you may
+        have a medical or mental health emergency, call your doctor or 911 immediately.\n\n
+        Reliance upon any information provided by this application is solely at the users own risk.
+        Some information on this application may create an unreasonable risk for readers who choose to
+        apply or use the information in their own activities or to promote the information for use by
+        third parties. The individual contributors and developers of this application disclaim any liability,
+        loss or risk sustained as a result or consequence of any attempt to use, apply or adopt any of the
+        information provided by this application.\n\n
+        All data stored by this application is saved to your phone. The contributors to and developers
+        of this application have no access to the data stored on your phone and cannot use, store, manipulate,
+        or otherwise interact with data on your phone, and disclaim any responsibility to react or respond
+        to any data stored by this application.
+    </string>
+
     <!-- Create Account Strings-->
     <string name="ask_name">First Name</string>
     <string name="ask_email">Email</string>

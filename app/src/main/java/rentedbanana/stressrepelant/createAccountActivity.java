@@ -82,7 +82,7 @@ public class createAccountActivity extends AppCompatActivity {
             //Toast.makeText(this, "Created user", Toast.LENGTH_LONG).show();
             LocalDB.closeDB();
 
-            Intent i = new Intent(this, ProfilerActivity.class);
+            Intent i = new Intent(this, LegalActivity.class);
             i.putExtra("USERNAME", user);
             i.putExtra("PASSWORD", pass);
             i.putExtra("FIRST_NAME", name);
