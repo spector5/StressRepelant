@@ -1,14 +1,22 @@
 package rentedbanana.stressrepelant;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import android.telephony.SmsManager;
 
 /**
  * Dictionary used to check messages for positive or negative responses
@@ -42,10 +50,11 @@ public final class Dictionary
             "did [neg] [wrd] say", "disagree", "[neg] think so", "that is [neg] true", "[neg]", "false",
             "incorrect", "not at all"));
 
-    private static final ArrayList<String> filterDict = new ArrayList<>(Arrays.asList("kill", "suicide", "dead",
-            "death", "murder", "die", "suicidal"));
+    //private static final ArrayList<String> filterDict = new ArrayList<>(Arrays.asList());
 
-    // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip
+    // sometimes, somewhat, dont know, not sure, unsure, uncertain, dont want to answer, decline, skip, maybe
+    private static final ArrayList<String> unsureDict = new ArrayList<>(Arrays.asList("sometimes", "somewhat", "dont know",
+            "not sure", "unsure", "uncertain", "dont want to answer", "decline", "skip", "maybe"));
 
     // any adjective that would be used in a negative response (replaces [neg] in above list)
     private static final ArrayList<String> negAdjective = new ArrayList<>(Arrays.asList("not", "rarely",
@@ -326,21 +335,73 @@ public final class Dictionary
      * Finds if a trigger word is in the text, sends notifications
      * @param text = string to be searched
      */
-    public static void filterText(String text, Activity act)
+    public static void filterText(String text, Activity act, Context context)
     {
         // format string
         String string = cleanString(text);
-
-        for (int i = 0; i < filterDict.size(); i++)
+        if (string.contains("spit"))
         {
-            //if (string.contains(filterDict.get(i)))
-            //{
-                // send notifications
-                /*new SendMailTask(act).execute("stressrepellenttest", "7knJCUgiao6X9eCK4q",
-                        new ArrayList<String>(Arrays.asList("turfandturf17@gmail.com")),
-                        "Stress Repellent Test", "This is a test of stress repellent.");*/
-            //}
+            try {
+                InputStream inputStream = context.openFileInput("textlog.txt");
+
+                if ( inputStream != null ) {
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String receiveString = "";
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    Log.d("textlog", "");
+                    while ( (receiveString = bufferedReader.readLine()) != null ) {
+                        Log.d("textlog", receiveString);
+                    }
+
+                    inputStream.close();
+                }
+            }
+            catch (FileNotFoundException e) {
+                Log.e("login activity", "File not found: " + e.toString());
+            } catch (Exception e) {
+                Log.e("login activity", "Can not read file: " + e.toString());
+            }
         }
+
+        /*for (int i = 0; i < filterDict.size(); i++)
+        {
+            if (string.contains(filterDict.get(i)))
+            {
+                // send notifications
+                new SendMailTask(act).execute("stressrepellenttest@gmail.com", "7knJCUgiao6X9eCK4q",
+                        new ArrayList<String>(Arrays.asList("turfandturf17@gmail.com")),
+                        "Stress Repellent Test", "This is a test of stress repellent.");
+
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage("8049292343", null,
+                        "|Alert| " + null + ", in conversation with StressRepelant, said: \"" + 
+                                text +"\" You may want to consider checking on them or telling someone who could help.", null, null);
+                break;
+            }
+        }*/
+    }
+
+    /**
+     * Counts how many phrases indicate the user agrees with a question
+     * @param text = user response
+     * @return number of positive phrases
+     */
+    public static int checkUnsure(String text)
+    {
+        // format string
+        String string = cleanString(text);
+        int count = 0;
+
+        // dictionary could become very large, brainstorm preprocessing that can reduce number of loops
+        for (int i = 0; i < unsureDict.size(); i++)
+        {
+            if (string.contains(positiveDict.get(i)))    // found phrase with no adjective
+                count++;
+        }
+
+        return count;
     }
 
     /**

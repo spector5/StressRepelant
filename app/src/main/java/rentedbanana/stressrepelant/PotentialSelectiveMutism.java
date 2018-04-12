@@ -1,7 +1,10 @@
 package rentedbanana.stressrepelant;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -30,7 +33,7 @@ public class PotentialSelectiveMutism implements Condition
             put("Have you had issues at school, work, or in social situations related to these disturbances?", true);
             put("Do these disturbances interfere with your ability to communicate socially?", true);}});
         put(2, new Hashtable<String, Boolean>(){{
-            put("Is there consistent failure to speak in specific social situations in which there is an expectation for speaking despite speaking in other situations?", false);
+            put("Is there consistent failure to speak in specific social situations in which there is an expectation for speaking?", true);
             put("Do you consistently fail to speak in specific social situations you are expected to speak at?", true);
             put("Have you been unable to speak at times you were expected to speak?", true);}});
         put(3, new Hashtable<String, Boolean>(){{
@@ -38,7 +41,7 @@ public class PotentialSelectiveMutism implements Condition
             put("Is your failure to speak caused by a lack of knowledge of a spoken language?", false);
             put("Do you have trouble speaking because you are unfamiliar with a spoken language?", false);}});
         put(4, new Hashtable<String, Boolean>(){{
-            put("Are the disturbances not better explained by a different cause?", true);
+            put("Are the disturbances not better explained by a different cause?", false);
             put("Do you have a different medical or mental condition that explains your inability to speak?", false);}});
     }};
 
@@ -130,7 +133,7 @@ public class PotentialSelectiveMutism implements Condition
      * @param num = index of question
      * @return true if the answer makes sense, flase if the app cant figure out what the answer means
      */
-    public boolean sendAnswer(String quest, String ans, int num, Activity act)
+    public boolean sendAnswer(String quest, String ans, int num, Activity act, Context con)
     {
         int countPos;
         int countNeg;
@@ -140,13 +143,34 @@ public class PotentialSelectiveMutism implements Condition
         {
             // Have the duration of the disturbance lasted at least 1 month?
             case 0:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -156,6 +180,14 @@ public class PotentialSelectiveMutism implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -164,13 +196,34 @@ public class PotentialSelectiveMutism implements Condition
                 }
             // Do the disturbance interfere with educational or occupational achievement or with social communication?
             case 1:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -180,6 +233,14 @@ public class PotentialSelectiveMutism implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -188,13 +249,34 @@ public class PotentialSelectiveMutism implements Condition
                 }
             // Is there consistant failure to speak in specific social situations in which there is an expectation for speaking despite speaking in other situations?
             case 2:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -204,6 +286,14 @@ public class PotentialSelectiveMutism implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -212,13 +302,34 @@ public class PotentialSelectiveMutism implements Condition
                 }
             // Is there a failure to speak not attributable to a lack of knowledge of, or comfort with, the spoken language required in the social situation?
             case 3:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -228,6 +339,14 @@ public class PotentialSelectiveMutism implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -236,13 +355,34 @@ public class PotentialSelectiveMutism implements Condition
                 }
             // Are the disturbances not better explained by a different cause?
             case 4:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;
@@ -252,6 +392,14 @@ public class PotentialSelectiveMutism implements Condition
                 else {
                     if (countPos < countNeg) {
                         criteria++;
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
                         return false;

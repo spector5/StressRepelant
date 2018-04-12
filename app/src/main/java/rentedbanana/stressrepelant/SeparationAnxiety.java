@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -36,7 +37,7 @@ public class SeparationAnxiety implements Condition
             put("Does this feeling cause significant distress in some social, occupational, or other area of your life?", true);
             put("Do you feel significant distress caused by these symptoms?", true);}});
         put(2, new Hashtable<String, Boolean>(){{
-            put("Are there recurrent excessive distress when anticipating separation from home or from major attachment figures?", true);
+            put("Is there recurrent excessive distress when anticipating separation from home or from major attachment figures?", true);
             put("Do you feel distressed when anticipating separation from home or major attachment figures?", true);
             put("Have you been feeling stressed when you anticipate being separated from home or people you care about?", true);}});
         put(3, new Hashtable<String, Boolean>(){{
@@ -178,7 +179,7 @@ public class SeparationAnxiety implements Condition
      * @param num = index of question
      * @return true if the answer makes sense, flase if the app cant figure out what the answer means
      */
-    public boolean sendAnswer(String quest, String ans, int num, Activity act)
+    public boolean sendAnswer(String quest, String ans, int num, Activity act, Context con)
     {
         int countPos;
         int countNeg;
@@ -188,17 +189,43 @@ public class SeparationAnxiety implements Condition
         {
             // How long has the symptoms lasted?
             case 0:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 if ((duration = Dictionary.countDays(ans)) > 0) {
-                    // TODO must communicate with server to get age, for now assuming adult user
-                    if (duration < 180)
+                    try {
+                        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                        outputStreamWriter.write("duration:" + duration + "\n");
+                        outputStreamWriter.close();
+                    }
+                    catch (Exception e) {
+                        Log.e("Exception", "File write failed: " + e.toString());
+                    }
+                    if (duration < 180) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         criteria++;
+                    }
                     return true;
                 }
                 break;
             // Do the disturbances causes significant distress in social, academic, occupational, or other important areas of functioning?
             case 1:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    criteria++;
+                    return true;
+                }
                 Log.d("case1hash", questions.get(num).toString());
                 Hashtable<String, Boolean> hold = questions.get(num);
                 Log.d("case1quest", quest);
@@ -207,9 +234,25 @@ public class SeparationAnxiety implements Condition
 
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         criteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -219,6 +262,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         criteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -228,12 +279,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Are there recurrent excessive distress when anticipating separation from home or from major attachment figures?
             case 2:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -243,6 +315,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -252,12 +332,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent worry about losing major attachment figures or about possible harm to them, such as illness, injury, disaster, or death?
             case 3:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -267,6 +368,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -276,12 +385,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent and excessive worry about experiencing an untoward event that causes separation from a major attachment figure?
             case 4:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -291,6 +421,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -300,12 +438,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent reluctance or refusal to go out, away from home, to school, to work, or elsewhere because of fear of separation?
             case 5:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -315,6 +474,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -324,12 +491,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent fear of or reluctance about being alone or without major attachment figures at home or in other settings?
             case 6:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -339,6 +527,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -348,12 +544,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Is there persistent reluctance or refusal to sleep away from home or to got to sleep without being near a major attachment figure?
             case 7:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -363,6 +580,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -372,12 +597,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Are there repeated nightmares involving the theme of separation?
             case 8:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -387,6 +633,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -396,12 +650,33 @@ public class SeparationAnxiety implements Condition
                 }
                 // Are there repeated complaints of physical symptoms when separation from major attachment figures occurs or is anticipated?
             case 9:
-                Dictionary.filterText(ans, act);
+                Dictionary.filterText(ans, act, con);
+                if (Dictionary.checkUnsure(ans) != 0)
+                {
+                    subcriteria++;
+                    return true;
+                }
                 countPos = Dictionary.countPositive(ans);
                 countNeg = Dictionary.countNegative(ans);
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                    outputStreamWriter.write("pos:" + countPos + " neg:" + countNeg + "\n");
+                    outputStreamWriter.close();
+                }
+                catch (Exception e) {
+                    Log.e("Exception", "File write failed: " + e.toString());
+                }
 
                 if (questions.get(num).get(quest)) {
                     if (countPos > countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)
@@ -411,6 +686,14 @@ public class SeparationAnxiety implements Condition
                 }
                 else {
                     if (countPos < countNeg) {
+                        try {
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.openFileOutput("textlog.txt", Context.MODE_APPEND));
+                            outputStreamWriter.write("fufills:true\n");
+                            outputStreamWriter.close();
+                        }
+                        catch (Exception e) {
+                            Log.e("Exception", "File write failed: " + e.toString());
+                        }
                         subcriteria++;
                         return true;
                     } else if (countNeg == 0 && countPos == 0)

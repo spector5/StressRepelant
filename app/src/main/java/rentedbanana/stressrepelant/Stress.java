@@ -1,6 +1,7 @@
 package rentedbanana.stressrepelant;
 
 import android.app.Activity;
+import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +46,8 @@ public class Stress implements Condition {
      * @return
      */
     @Override
-    public boolean sendAnswer(String quest, String ans, int num, Activity act) {
-        Dictionary.filterText(quest, act);
+    public boolean sendAnswer(String quest, String ans, int num, Activity act, Context con) {
+        Dictionary.filterText(quest, act, con);
         return true;
     }
 

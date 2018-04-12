@@ -11,7 +11,7 @@ import android.content.Context;
 public interface Condition
 {
     String getQuestion(int num);
-    boolean sendAnswer(String quest, String ans, int num, Activity act);
+    boolean sendAnswer(String quest, String ans, int num, Activity act, Context con);
     String makeResponse();
     int getQuestionLength();
 }

@@ -16,8 +16,9 @@
         android:inputType="textPersonName"
         android:hint="@string/ask_name"
         android:ems="10"
+        android:layout_marginTop="25dp"
         android:layout_marginLeft="52dp"
-        android:layout_marginStart="52dp"
+        android:layout_marginRight="52dp"
         android:id="@id/nameField"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -26,7 +27,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:text=""
         android:hint="@string/ask_password"
         android:ems="10"
@@ -35,19 +36,7 @@
         tools:ignore="TextFields"
         android:layout_below="@+id/createUsernameField"
         android:layout_alignLeft="@+id/createUsernameField"
-        android:layout_alignStart="@+id/createUsernameField" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/emailField"
-        android:hint="@string/ask_email"
-        android:layout_below="@+id/nameField"
-        android:layout_alignLeft="@+id/nameField"
-        android:layout_alignStart="@+id/nameField"
-        android:layout_marginTop="23dp" />
+        android:layout_alignRight="@+id/createUsernameField" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -55,11 +44,11 @@
         android:inputType="textPersonName"
         android:hint="@string/ask_username"
         android:ems="10"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="13dp"
         android:id="@+id/createUsernameField"
-        android:layout_below="@+id/emailField"
-        android:layout_alignLeft="@+id/emailField"
-        android:layout_alignStart="@+id/emailField" />
+        android:layout_below="@+id/nameField"
+        android:layout_alignLeft="@+id/nameField"
+        android:layout_alignRight="@+id/nameField" />
 
 
     <Button
@@ -73,7 +62,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/createPasswordField"
         android:layout_alignStart="@+id/createPasswordField"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="135dp"
         android:onClick="createAccount"/>
 </RelativeLayout>
 
